@@ -2,7 +2,7 @@ import Sidebar from "@/components/side-bar/sidebar";
 
 export const HomePage = () => {
     return (
-        <div className="bg-white min-h-[100vh]">
+        <div className="bg-slate-950 min-h-[100vh]">
             <Sidebar />
         </div>
     )
