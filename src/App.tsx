@@ -1,11 +1,12 @@
 import { Route, BrowserRouter as Router, Routes , Navigate} from "react-router-dom";
 import { routeCollection } from "./models/route-collection";
+import MainTemplate from "./templates/main-template";
 
 function App() {
 
-
   return (
     <>
+    <MainTemplate>
       <Router>
         <Routes>
           {routeCollection.map((route) => {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Navigate to="/home" />} />
         </Routes>
       </Router>
+    </MainTemplate>
     </>
   );
 }
