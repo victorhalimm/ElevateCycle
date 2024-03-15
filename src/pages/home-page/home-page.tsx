@@ -1,6 +1,27 @@
-import Sidebar from "@/components/side-bar/sidebar";
+import { Quote } from "@/models/quote";
+import { fetchQuote } from "@/services/quote-service";
+import { useEffect, useState } from "react";
 
 export const HomePage = () => {
+
+    const [quotes, setQuotes] = useState<Quote[]>([]);
+
+    useEffect(() => {
+        const getQuote = async () => {
+            const category = 'inspirational';
+            try {
+                const fetchedQuote = await fetchQuote(category);
+                setQuotes(fetchedQuote);
+
+                console.log(fetchedQuote);
+            } catch (error) {
+                console.error('Error fetching quote', error);
+            }
+        };
+
+        getQuote();
+    }, []);
+
     return (
         <div className="bg-[#101015] w-[97.5%] ml-[1.25%]">
             <div className="flex-col flex gap-3">
