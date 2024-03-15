@@ -15,8 +15,8 @@ export default function Navbar({openSidebar} : any) {
                     <AvatarFallback>AM</AvatarFallback>
                 </Avatar>
                 <div className="ml-4">
-                    <p className="font-chakra text-sm">INDRA</p>
-                    <p className="font-chakra text-xs opacity-40">HALIM</p>
+                    <p className="font-chakra text-sm">Ramadhan</p>
+                    <p className="font-chakra text-xs opacity-40">Effenduck</p>
                 </div>
             </div>
         </div>

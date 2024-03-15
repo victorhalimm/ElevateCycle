@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -15,10 +15,10 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
-      }
+      },
     },
     fontFamily: {
-      'chakra': ['Chakra Petch', 'sans-serif'],
+      chakra: ["Chakra Petch", "sans-serif"],
     },
     extend: {
       colors: {
@@ -55,12 +55,16 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        pageBlack: "#101015",
+        pageBlue: "#506385",
+        pageCream: "#F1F0E1",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -78,6 +82,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;
