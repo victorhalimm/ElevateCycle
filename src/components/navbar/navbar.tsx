@@ -9,7 +9,7 @@ export default function Navbar({openSidebar} : any) {
                 onClick={openSidebar}
             />
             <div></div>
-            <div className="text-white flex items-center mr-8">
+            <div className="text-white flex items-center mr-8 cursor-pointer">
                 <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>AM</AvatarFallback>

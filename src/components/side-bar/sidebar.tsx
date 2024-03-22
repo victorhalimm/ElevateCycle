@@ -1,7 +1,5 @@
 import Header from "../header/header";
-import { Button } from "../ui/button";
 import DarkLogo from '../../assets/dark-logo.png';
-import { Image } from "lucide-react";
 import ImageContainer from "../image/image";
 
 const Sidebar = ({className, openSidebar} : params) => {

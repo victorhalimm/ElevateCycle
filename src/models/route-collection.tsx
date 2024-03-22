@@ -1,3 +1,4 @@
+import LoginPage from "@/pages/login-page/login-page";
 import HomePage from "../pages/home-page/home-page";
 
 interface IRoute {
@@ -11,6 +12,11 @@ export const routeCollection : IRoute[] = [
         name: "Home",
         route: "/home",
         element: <HomePage />
-    }
+    },
+    {
+        name: "Login",
+        route: "/login",
+        element: <LoginPage />
+    },
 ]
 
