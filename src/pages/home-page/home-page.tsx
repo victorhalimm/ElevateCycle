@@ -1,6 +1,6 @@
 import { Quote } from "@/models/quote";
 import { fetchQuote } from "@/services/quote-service";
-import { Checkbox } from "@radix-ui/react-checkbox";
+import { Checkbox } from "@/components/ui/checkbox"; 
 import { useEffect, useState } from "react";
 
 export const HomePage = () => {
@@ -34,10 +34,21 @@ export const HomePage = () => {
                     <p className="font-chakra text-pageCream text-sm">TODAY'S COMPLETED TASK</p>
                     <p className="font-chakra text-pageCream text-5xl font-medium">69 / 69</p>
                 </div>
-                <div className="bg-[#1f1f22] gap-1 w-64 min-h-64 px-4 py-6 flex-col flex justify-between">
+                <div className="bg-[#1f1f22] gap-1 w-64 min-h-64 px-4 py-6 flex-col flex">
                     <p className="font-chakra text-pageCream text-sm">TODAY'S REMAINING TASK</p>
-                    <div className="text-white text-sm">
-                        <Checkbox id="dummy"/>
+                    <div className="flex flex-col gap-2 pt-3">
+                        <div className="text-pageCream gap-2 text-sm flex items-center">
+                            <Checkbox id="dummy"/>
+                            <label htmlFor="dummy">Test</label>
+                        </div>
+                        <div className="text-pageCream gap-2 text-sm flex items-center">
+                            <Checkbox id="dummy2"/>
+                            <label htmlFor="dummy2">Test</label>
+                        </div>
+                        <div className="text-pageCream gap-2 text-sm flex items-center">
+                            <Checkbox id="dummy3"/>
+                            <label htmlFor="dummy3">Test</label>
+                        </div>
                     </div>
                 </div>
             </div>

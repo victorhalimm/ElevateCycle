@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CgLayoutGridSmall } from "react-icons/cg";
+import UserDropdown from "../user-dropdown/user-dropdown";
 
 export default function Navbar({openSidebar} : any) {
     return (
@@ -9,20 +9,7 @@ export default function Navbar({openSidebar} : any) {
                 onClick={openSidebar}
             />
             <div></div>
-            <div className="text-white flex items-center mr-8 cursor-pointer">
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>AM</AvatarFallback>
-                </Avatar>
-                <div className="ml-4">
-                    <p className="font-chakra text-sm">Ramadhan</p>
-                    <p className="font-chakra text-xs opacity-40">Effenduck</p>
-                </div>
-            </div>
+            <UserDropdown />
         </div>
     );
-}
-
-type params = {
-    openSidebar : () => void
 }
