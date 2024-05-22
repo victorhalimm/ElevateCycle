@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { FcGoogle } from "react-icons/fc";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLock2Line } from "react-icons/ri";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth"
-import { addDoc, collection, doc, getDoc, onSnapshot, query, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "@/firebase/firebaseConfig"
 import { useState } from "react";
 import { toast } from "sonner";
-import { RiLoader4Fill } from "react-icons/ri";
+import { AiOutlineUser } from "react-icons/ai";
 import LoadingButton from "@/components/loading-button";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigator } from "@/contexts/navigator-context";
 
 type params = {
     changeSubpage : (index: number) => void
@@ -20,10 +20,13 @@ const RegisterSubpage = ({changeSubpage} : params) => {
         email: '',
         password: '',
         confirmPassword: '',
+        firstName: '',
+        lastName: ''
     });
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    // const navigate = useNavigator();
 
     const register = async () => {
         setLoading(true);
@@ -37,7 +40,7 @@ const RegisterSubpage = ({changeSubpage} : params) => {
             setLoading(false);
             return;
         }
-        if(userData.email === '' || userData.password === '' || userData.confirmPassword === '') {
+        if(userData.email === '' || userData.password === '' || userData.confirmPassword === '' || userData.firstName === '' || userData.lastName === '') {
             setError('Please fill in all fields');
             setLoading(false);
             return;
@@ -49,16 +52,38 @@ const RegisterSubpage = ({changeSubpage} : params) => {
             .catch((error) => {
                 console.log(error.message);
             });
+            await setDoc(doc(db, 'users', creds.user.uid), {
+                firstName : userData.firstName,
+                lastName : userData.lastName,
+                email: userData.email,
+            });
         setError('');
         toast('Account created successfully');
         setLoading(false);
-        changeSubpage(0);
+        // changeSubpage(0);
+        // navigate('/');
     }
 
     return (
         <>
         <div className='w-full flex flex-col gap-4'>
             <p className='text-pageCream text-2xl font-chakra'>Register</p>
+
+            <div className="flex gap-4">
+                <div className='relative w-full flex items-center'>
+                    <AiOutlineUser className='text-pageCream absolute ml-2'/>
+                    <input 
+                        className='focus-visible:outline-none bg-transparent w-full border-b p-2 indent-7 border-darkCream placeholder:text-darkCream placeholder:text-opacity-30 text-darkCream' 
+                        placeholder='First Name' type={'text'} value={userData.firstName}
+                        onChange={(e) => setUserData({...userData, firstName: e.target.value})}
+                    />
+                </div>
+                <input 
+                    className='focus-visible:outline-none bg-transparent w-full border-b p-2 border-darkCream placeholder:text-darkCream placeholder:text-opacity-30 text-darkCream' 
+                    placeholder='Last Name' type={'text'} value={userData.lastName}
+                    onChange={(e) => setUserData({...userData, lastName: e.target.value})}
+                />
+            </div>
             
             <div className='relative w-full flex items-center'>
                 <IoMailOutline className='text-pageCream absolute ml-2'/>

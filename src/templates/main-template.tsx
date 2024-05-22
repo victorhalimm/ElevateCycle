@@ -5,15 +5,13 @@ import { useState } from "react";
 
 export default function MainTemplate({children} : IChildren /* ILoveChildren */) {
 
-  const [sidebarClass, setSidebarClass] = useState("w-0");
-
-  const openSidebar = () => sidebarClass === "w-0" ? setSidebarClass("w-[20vw]") : setSidebarClass("w-0");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div className="flex w-screen h-screen">
-      <Sidebar className={sidebarClass} openSidebar={openSidebar}/>
+      <Sidebar className={sidebarOpen ? "w-[20vw]" : "w-0"} openSidebar={() => setSidebarOpen(!sidebarOpen)}/>
       <div className="bg-[#101015] flex flex-col h-screen w-screen">
-        <Navbar openSidebar={openSidebar}/>
+        <Navbar openSidebar={() => setSidebarOpen(!sidebarOpen)}/>
         {children}
       </div>
     </div>

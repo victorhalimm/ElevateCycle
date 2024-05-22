@@ -22,8 +22,7 @@ const LoginSubpage = ({changeSubpage} : params) => {
     
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigator();
-    const nav = useNavigate();
+    // const navigate = useNavigator();
 
     const login = async () => {
         setLoading(true);
@@ -42,14 +41,8 @@ const LoginSubpage = ({changeSubpage} : params) => {
         }
         setError('');
         setLoading(false);
-        navigate("/");
+        // navigate("/");
     }
-
-    useEffect(() => {
-        if(auth.currentUser !== null) {
-            nav("/");
-        }
-    }, [])
 
     return (
         <>
