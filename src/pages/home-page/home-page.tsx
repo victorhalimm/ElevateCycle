@@ -5,10 +5,17 @@ import { useEffect, useState } from "react";
 import MainTemplate from "@/templates/main-template";
 import { Input } from "@/components/ui/input";
 import { FaArrowRight } from "react-icons/fa";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "@/firebase/firebaseConfig";
+import { useUser } from "@/contexts/user-context";
+import { Task } from "@/lib/types/task";
+import HomeTaskSection from "./home-task-section";
 
 export const HomePage = () => {
 
     const [quotes, setQuotes] = useState<Quote[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]); 
+    const user = useUser();
 
     useEffect(() => {
         const getQuote = async () => {
@@ -24,7 +31,25 @@ export const HomePage = () => {
         };
 
         getQuote();
-    }, []);
+
+        let unsubscribeFirestore = () => {};
+        
+        if(user !== null) {
+            const q = query(collection(db, 'tasks'), where('uid', "==", user.uid));
+                unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
+                    let tasksResult : Task[] = [];
+                    querySnapshot.forEach((doc) => {
+                        //@ts-ignore
+                        tasksResult.push({ id: doc.id, ...doc.data() });
+                    });
+                    setTasks(tasksResult);
+                });
+        }
+
+        return () => {
+            unsubscribeFirestore();
+        }
+    }, [user]);
 
     return (
         <MainTemplate>
@@ -41,18 +66,6 @@ export const HomePage = () => {
                     <div className="bg-darkBlue gap-1 w-full h-[60%] px-4 py-6 flex-col flex">
                         <p className="font-chakra text-pageCream text-sm">TODAY'S REMAINING TASK</p>
                         <div className="flex flex-col gap-2 pt-3">
-                            <div className="text-pageCream gap-2 text-sm flex items-center">
-                                <Checkbox id="dummy"/>
-                                <label htmlFor="dummy">Test</label>
-                            </div>
-                            <div className="text-pageCream gap-2 text-sm flex items-center">
-                                <Checkbox id="dummy2"/>
-                                <label htmlFor="dummy2">Test</label>
-                            </div>
-                            <div className="text-pageCream gap-2 text-sm flex items-center">
-                                <Checkbox id="dummy3"/>
-                                <label htmlFor="dummy3">Test</label>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,36 +79,9 @@ export const HomePage = () => {
                         <p className="font-chakra text-pageCream text-sm">TODAY'S REMAINING TASK</p>
                     </div>
                 </div>
-
-                <div className="flex-col flex gap-3 h-full w-[40%]">
-                    <div className="bg-darkBlue gap-1 w-full h-[80%] px-4 py-6 flex-col flex justify-between">
-                        <p className="font-chakra text-pageCream text-sm">TODAY'S TASK LIST</p>
-                        <div className="flex flex-col gap-2 pt-3 h-full">
-                            <div className="text-pageCream gap-2 text-sm flex items-center">
-                                <Checkbox id="dummy"/>
-                                <label htmlFor="dummy">Test</label>
-                            </div>
-                            <div className="text-pageCream gap-2 text-sm flex items-center">
-                                <Checkbox id="dummy2"/>
-                                <label htmlFor="dummy2">Test</label>
-                            </div>
-                            <div className="text-pageCream gap-2 text-sm flex items-center">
-                                <Checkbox id="dummy3"/>
-                                <label htmlFor="dummy3">Test</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="bg-darkCream gap-1 w-full h-[20%] px-4 py-6 flex-col flex justify-between">
-                        <p className="font-chakra text-pageCream text-sm">ADD TASK</p>
-                        <div className="w-full flex justify-between relative font-chakra">
-                            <Input className="bg-transparent rounded-sm border-pageCream border-opacity-60 placeholder:text-pageCream placeholder:text-opacity-60 focus-visible:ring-0 text-white" placeholder="Add New Tasks"/>
-                            <div className="absolute right-3 h-full flex items-center">
-                                <FaArrowRight className="text-lg text-pageCream"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
+                <HomeTaskSection tasks={tasks}/>
+                
                 <div className="h-full w-[20%] flex gap-3 flex-col">
                     <div className="bg-darkBlue w-full h-full">
 
