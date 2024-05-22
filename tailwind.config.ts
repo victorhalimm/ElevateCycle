@@ -58,6 +58,9 @@ const config = {
         pageBlack: "#101015",
         pageBlue: "#506385",
         pageCream: "#F1F0E1",
+        darkBlue: "#1f1f22",
+        lightBlue: "#506385",
+        darkCream: "#adada4",
       },
       borderRadius: {
         lg: "var(--radius)",
