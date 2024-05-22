@@ -12,13 +12,13 @@ const Sidebar = ({className, openSidebar} : params) => {
 
     return (
         <div className={`max-w-[40vh] h-screen bg-[#101015] overflow-hidden min-h-screen transition-all relative z-20 duration-500 ${className}`}>
-            <div className="flex flex-col gap-2 mt-5 ml-4 absolute h-24">
-                <div className="flex items-center cursor-pointer" onClick={openSidebar}>
-                    <ImageContainer src={DarkLogo} />
-                    <Header>ElevateCycle</Header>
+            <div className="flex flex-col gap-2 ml-4 absolute">
+                <div className="flex items-center cursor-pointer gap-3 h-24" onClick={openSidebar}>
+                    <img src={DarkLogo} className="w-6 h-6" />
+                    <p className="text-pageCream font-chakra font-medium text-lg">ElevateCycle</p>
                 </div>
 
-                <div className="flex flex-col gap-6 mt-8 font-chakra">
+                <div className="flex flex-col gap-6 font-chakra">
                 {
                     routeCollection.map((route, index) => (
                         route.showInSidebar ? (

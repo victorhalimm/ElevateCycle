@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router, Routes , Navigate} from "react-router-dom";
+import { Toaster } from "./components/ui/sonner";
 import NavigatorContextProvider from "./contexts/navigator-context";
 import { routeCollection } from "./lib/routes/route-collection";
-import MainTemplate from "./templates/main-template";
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/home" />} />
             </Routes>
         </NavigatorContextProvider>
+        <Toaster />
     </Router>
     </>
   );
