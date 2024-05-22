@@ -60,6 +60,7 @@ const config = {
         pageCream: "#F1F0E1",
         darkBlue: "#1f1f22",
         lightBlue: "#506385",
+        lighterBlue: "#647fb0",
         darkCream: "#adada4",
       },
       borderRadius: {

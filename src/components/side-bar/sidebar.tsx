@@ -23,8 +23,8 @@ const Sidebar = ({className, openSidebar} : params) => {
                     routeCollection.map((route, index) => (
                         route.showInSidebar ? (
                             <div 
-                                className={`text-lg text-darkCream flex items-center gap-3 transition-all duration-200 cursor-pointer 
-                                    ${currentRoute?.pathname === route.route ? " text-lightBlue" : " opacity-60 hover:opacity-100"}`} key={index}
+                                className={`text-lg flex items-center gap-3 transition-all duration-200 cursor-pointer 
+                                    ${currentRoute?.pathname === route.route ? " text-lighterBlue" : "text-darkCream opacity-60 hover:opacity-100"}`} key={index}
                                 onClick={() => navigate(route.route)}
                             >
                                 {route.icon}

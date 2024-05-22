@@ -18,13 +18,13 @@ const UserDropdown = () => {
           </Avatar>
           <div className="ml-4">
             <p className="font-chakra text-sm">Ramadhan</p>
-            <p className="font-chakra text-xs opacity-40">Effenduck</p>
+            <p className="font-chakra text-xs opacity-40">Silitonga</p>
           </div>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-[#1f1f22] text-white outline-none border-0">
+      <DropdownMenuContent className="bg-[#1f1f22] text-white outline-none border-0 rounded-none">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-gray-800"/>
+        <DropdownMenuSeparator className="bg-stone-800"/>
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuItem>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
