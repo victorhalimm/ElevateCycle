@@ -1,4 +1,4 @@
-import { Quote } from '@/models/quote';
+import { Quote } from '@/lib/types/quote';
 import axios from 'axios';
 
 

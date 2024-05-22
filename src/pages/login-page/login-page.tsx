@@ -1,22 +1,47 @@
-import logo from '../../assets/dark-logo.png';
+
+import Clock from '@/components/clock';
+import { useState } from 'react';
+import LoginSubpage from './login-subpage';
+import RegisterSubpage from './register-subpage';
+
 
 const LoginPage = () => {
 
-    
+    const [currentPage, setCurrentPage] = useState(0);
+    const [opacity, setOpacity] = useState(100);
 
-    
+    const changePage = async (index: number) => {
+        setOpacity(0);
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setCurrentPage(index);
+        setOpacity(100);
+    }
+
+    const subpages = [
+        <LoginSubpage changeSubpage={changePage}/>,
+        <RegisterSubpage changeSubpage={changePage}/>
+    ]
+
     return (
+        <>
         <div className="w-screen h-screen bg-pageBlack flex justify-between">
             <div className='p-24 flex items-center'>
-                <p className='text-pageCream font-chakra h-64 text-6xl font-semibold opacity-70 w-[70%]'>Elevating Lives, One Cycle At a Time</p>
-                <img src={logo} className="opacity-[1%] w-[60vw] fixed bottom-[-20vh] left-[-15vw]"/>
+                <p className='text-pageCream font-chakra h-64 text-6xl font-semibold opacity-70 w-[70%] z-10'>Elevating Lives, One Cycle At a Time</p>
+                <div className='fixed left-[10vw] bottom-[10vw] opacity-50' style={{transform: "scale(2.5)"}}>
+                    <Clock/>
+                </div>
             </div>
-            <div className='p-6'>
-                <div className='bg-darkBlue w-[35vw] h-full shadow-lg'>
-
+            <div className={`p-6 ${currentPage == 0 ? "w-[35vw]" : "w-[40vw]"} transition-all duration-500`}>
+                <div className={`bg-darkBlue h-full shadow-lg p-10 `}>
+                    <div className={`gap-6 flex flex-col justify-center w-full h-full transition-all duration-300`} style={{opacity: opacity + "%"}}>
+                    {
+                        subpages[currentPage]
+                    }
+                    </div>
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

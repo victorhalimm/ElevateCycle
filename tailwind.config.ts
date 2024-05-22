@@ -19,6 +19,7 @@ const config = {
     },
     fontFamily: {
       chakra: ["Chakra Petch", "sans-serif"],
+      raleway: ["Raleway", "sans-serif"],
     },
     extend: {
       colors: {

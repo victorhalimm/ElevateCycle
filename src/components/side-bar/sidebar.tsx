@@ -1,7 +1,7 @@
 import Header from "../header/header";
 import DarkLogo from '../../assets/dark-logo.png';
 import ImageContainer from "../image/image";
-import { routeCollection } from "@/models/route-collection";
+import { routeCollection } from "@/lib/routes/route-collection";
 import { useLocation } from "react-router-dom";
 import { useNavigator } from "@/contexts/navigator-context";
 

@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar/navbar";
 import Sidebar from "@/components/side-bar/sidebar";
-import IChildren from "@/interfaces/children";
+import IChildren from "@/lib/types/children";
 import { useState } from "react";
 
 export default function MainTemplate({children} : IChildren /* ILoveChildren */) {

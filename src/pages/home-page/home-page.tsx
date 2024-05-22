@@ -1,4 +1,4 @@
-import { Quote } from "@/models/quote";
+import { Quote } from "@/lib/types/quote";
 import { fetchQuote } from "@/services/quote-service";
 import { Checkbox } from "@/components/ui/checkbox"; 
 import { useEffect, useState } from "react";

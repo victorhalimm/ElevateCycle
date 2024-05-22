@@ -1,5 +1,5 @@
 import LoginPage from "@/pages/login-page/login-page";
-import HomePage from "../pages/home-page/home-page";
+import HomePage from "../../pages/home-page/home-page";
 import { MdDashboard } from "react-icons/md";
 import { IoTimerOutline } from "react-icons/io5";
 

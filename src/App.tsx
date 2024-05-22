@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes , Navigate} from "react-router-dom";
 import NavigatorContextProvider from "./contexts/navigator-context";
-import { routeCollection } from "./models/route-collection";
+import { routeCollection } from "./lib/routes/route-collection";
 import MainTemplate from "./templates/main-template";
 
 function App() {
