@@ -1,13 +1,11 @@
 import LoadingButton from "@/components/loading-button";
 import { Button } from "@/components/ui/button";
-import { useNavigator } from "@/contexts/navigator-context";
 import { auth } from "@/firebase/firebaseConfig";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLock2Line } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 
 type params = {
     changeSubpage : (index: number) => void

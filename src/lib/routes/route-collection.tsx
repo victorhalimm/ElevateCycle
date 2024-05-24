@@ -2,6 +2,7 @@ import LoginPage from "@/pages/login-page/login-page";
 import HomePage from "../../pages/home-page/home-page";
 import { MdDashboard } from "react-icons/md";
 import { IoTimerOutline } from "react-icons/io5";
+import TimerPage from "@/pages/timer-page/timer-page";
 
 interface IRoute {
     name: string;
@@ -27,7 +28,7 @@ export const routeCollection : IRoute[] = [
     {
         name: "Timer",
         route: "/timer",
-        element: <></>,
+        element: <TimerPage />,
         icon: <IoTimerOutline />,
         showInSidebar: true,
     }
