@@ -84,7 +84,7 @@ export const HomePage = () => {
                 
                 <div className="h-full w-[20%] flex gap-3 flex-col">
                     <div className="bg-darkBlue w-full h-full">
-
+      
                     </div>
                 </div>
             </div>
