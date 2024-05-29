@@ -36,14 +36,15 @@ export const HomePage = () => {
         
         if(user !== null) {
             const q = query(collection(db, 'tasks'), where('uid', "==", user.uid));
-                unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
-                    let tasksResult : Task[] = [];
-                    querySnapshot.forEach((doc) => {
-                        //@ts-ignore
-                        tasksResult.push({ id: doc.id, ...doc.data() });
-                    });
-                    setTasks(tasksResult);
+            unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
+                let tasksResult : Task[] = [];
+                querySnapshot.forEach((doc) => {
+                    //@ts-ignore
+                    tasksResult.push({ id: doc.id, ...doc.data() });
                 });
+                // tasksResult.sort((a,b) => (a.completed > b.completed) ? 1 : ((b.completed > a.completed) ? -1 : 0))
+                setTasks(tasksResult);
+            });
         }
 
         return () => {

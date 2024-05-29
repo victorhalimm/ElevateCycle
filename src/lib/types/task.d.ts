@@ -1,6 +1,6 @@
 export type Task = {
-    id: string;
+    id?: string;
     uid: string;
     title: string;
-    status: 'todo' | 'done';
+    completed: boolean;
 }

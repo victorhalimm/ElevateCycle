@@ -41,7 +41,7 @@ const LoginPage = () => {
         <div className="w-screen h-screen bg-pageBlack flex justify-between">
             <div className='p-24 flex items-center'>
                 <p className='text-pageCream font-chakra h-64 text-6xl font-semibold opacity-70 w-[70%] z-10'>Elevating Lives, One Cycle At a Time</p>
-                <div className='fixed left-[10vw] bottom-[10vw] opacity-50' style={{transform: "scale(2.5)"}}>
+                <div className='fixed left-[10vw] bottom-[10vw] opacity-60' style={{transform: "scale(2.5)"}}>
                     <Clock/>
                 </div>
             </div>

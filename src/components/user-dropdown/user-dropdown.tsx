@@ -32,7 +32,7 @@ const UserDropdown = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-pageBlack outline-none">
+      <DropdownMenuTrigger className="bg-pageBlack outline-none select-none">
         <div className="text-white flex items-center mr-8 cursor-pointer">
           <Avatar className="bg-darkBlue w-10 h-10 rounded-full flex items-center justify-center  ">
             <AvatarFallback>{user?.firstName.charAt(0)}{user?.lastName.charAt(0)}</AvatarFallback>

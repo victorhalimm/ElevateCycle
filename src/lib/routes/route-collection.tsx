@@ -2,7 +2,10 @@ import LoginPage from "@/pages/login-page/login-page";
 import HomePage from "../../pages/home-page/home-page";
 import { MdDashboard } from "react-icons/md";
 import { IoTimerOutline } from "react-icons/io5";
+import { BsJournals } from "react-icons/bs";
 import TimerPage from "@/pages/timer-page/timer-page";
+import JournalPage from "@/pages/journal-page/journal-page";
+import ProfilePage from "@/pages/profile-page/profile-page";
 
 interface IRoute {
     name: string;
@@ -31,6 +34,18 @@ export const routeCollection : IRoute[] = [
         element: <TimerPage />,
         icon: <IoTimerOutline />,
         showInSidebar: true,
+    },
+    {
+        name: "Journal",
+        route: "/journal",
+        element: <JournalPage />,
+        icon: <BsJournals />,
+        showInSidebar: true
+    },
+    {
+        name: "Profile",
+        route: "/profile",
+        element: <ProfilePage />,
     }
 ]
 
