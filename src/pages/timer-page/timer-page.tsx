@@ -6,8 +6,8 @@ const TimerPage = () => {
         <MainTemplate>
             <div className="p-6">
                 <div className="text-3xl text-pageCream">KNTL</div>
-                <div className="w-full justify-center">
-                    <PomodoroTimer></PomodoroTimer>
+                <div className="w-full justify-center flex flex-col items-center">
+                    <PomodoroTimer />
                 </div>
             </div>
         </MainTemplate> 
