@@ -43,6 +43,16 @@ export const routeCollection : IRoute[] = [
         showInSidebar: true
     },
     {
+        name: "Daily Journal Detail",
+        route: "/journal/daily/:id",
+        element: <JournalPage />,
+    },
+    {
+        name: "Weekly Journal Detail",
+        route: "/journal/weekly/:id",
+        element: <JournalPage />,
+    },
+    {
         name: "Profile",
         route: "/profile",
         element: <ProfilePage />,

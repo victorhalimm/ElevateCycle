@@ -1,9 +1,50 @@
+import JournalButton from "@/components/journal/journal-button";
+import TodayJournalButton from "@/components/journal/today-journal-button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUser } from "@/contexts/user-context";
+import { db } from "@/firebase/firebaseConfig";
+import { DailyJournal } from "@/lib/types/journals/daily-journal";
+import { WeeklyJournal } from "@/lib/types/journals/weekly-journal";
 import MainTemplate from "@/templates/main-template";
+import { collection, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { GrDocumentText } from "react-icons/gr";
+import { useLocation } from "react-router-dom";
+import DailyJournalPage from "./daily-journal-page";
 
 const JournalPage = () => {
+
+    const [dailyJournals, setDailyJournals] = useState<DailyJournal[]>([])
+    const [weeklyJournals, setWeeklyJournals] = useState<WeeklyJournal[]>([])
+    const location = useLocation();
+
+    const user = useUser();
+
+    useEffect(() => {
+        (async () => {
+            let unsubscribeFirestore = () => {};
+        
+            if(user !== null) {
+                const dailyQuery = query(collection(db, 'dailyJournals'), orderBy('date', 'desc'), where('uid', '==', user.uid))
+                const dailyRef = await getDocs(dailyQuery);
+                const dailyData = dailyRef.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                // @ts-ignore
+                setDailyJournals(dailyData);
+                
+                const weeklyQuery = query(collection(db, 'weeklyJournals'), orderBy('date', 'desc'), where('uid', '==', user.uid))
+                const weeklyRef = await getDocs(weeklyQuery);
+                const weeklyData = weeklyRef.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                // @ts-ignore
+                setWeeklyJournals(weeklyData);
+            }
+
+            return () => {
+                unsubscribeFirestore();
+            }
+        })()
+    }, [])
+
     return (
         <MainTemplate>
             <div className="bg-pageBlack w-full p-6 flex gap-3 h-screen">
@@ -15,12 +56,10 @@ const JournalPage = () => {
                                 <AccordionTrigger className="h-10">Daily</AccordionTrigger>
                                 <AccordionContent className="">
                                     <ScrollArea className="flex flex-col max-h-[30vh]">
+                                        <TodayJournalButton mode="daily"/>
                                         {
-                                            Array.from({length: 10}).map((_, index) => (
-                                                <div className="py-2 flex items-center gap-2">
-                                                    <GrDocumentText className="opacity-30"/>
-                                                    <p>10th February 2024</p>
-                                                </div>
+                                            dailyJournals.map((journal, index) => (
+                                                <JournalButton journal={journal} key={index}/>
                                             ))
                                         }
                                     </ScrollArea>
@@ -30,12 +69,10 @@ const JournalPage = () => {
                                 <AccordionTrigger className="h-10">Weekly</AccordionTrigger>
                                 <AccordionContent className="">
                                     <ScrollArea className="flex flex-col max-h-[30vh]">
+                                        <TodayJournalButton mode="weekly"/>
                                         {
-                                            Array.from({length: 10}).map((_, index) => (
-                                                <div className="py-2 flex items-center gap-2">
-                                                    <GrDocumentText className="opacity-30"/>
-                                                    <p>10th February 2024</p>
-                                                </div>
+                                            weeklyJournals.map((journal, index) => (
+                                                <JournalButton journal={journal} key={index}/>
                                             ))
                                         }
                                     </ScrollArea>
@@ -48,9 +85,19 @@ const JournalPage = () => {
                         <p className="font-chakra text-pageCream text-5xl font-medium">20.0</p>
                     </div>
                 </div>
-                <div className="flex-col flex gap-3 h-fill w-[80%]">
-                    <div className="bg-darkBlue gap-1 w-full h-full px-4 py-6 flex-col flex">
-
+                <div className="flex-col flex gap-3 h-full w-[80%]">
+                    <div className="bg-darkBlue gap-1 w-full h-full px-8 flex-col flex justify-center">
+                        <ScrollArea className="h-[75vh]">
+                        {
+                            location?.pathname?.includes('daily') ? (
+                                <DailyJournalPage />
+                            ) : location?.pathname?.includes('weekly') ? (
+                                <></>
+                            ) : (
+                                <></>
+                            )
+                        }
+                        </ScrollArea>
                     </div>
                 </div>
             </div>

@@ -23,7 +23,7 @@ const Sidebar = ({className, openSidebar} : params) => {
                         route.showInSidebar ? (
                             <div 
                                 className={`text-lg flex items-center gap-3 transition-all duration-200 cursor-pointer select-none
-                                    ${currentRoute?.pathname === route.route ? " text-lighterBlue" : "text-darkCream opacity-60 hover:opacity-100"}`} key={index}
+                                    ${currentRoute?.pathname.includes(route.route) ? " text-lighterBlue" : "text-darkCream opacity-60 hover:opacity-100"}`} key={index}
                                 onClick={() => navigate(route.route)}
                             >
                                 {route.icon}

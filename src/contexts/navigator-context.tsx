@@ -1,17 +1,19 @@
 import IChildren from "@/lib/types/children";
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const NavigatorContext = createContext(async (route : string) => {});
 
 export default function NavigatorContextProvider({children} : IChildren) {
 
     const nav = useNavigate();
+    const location = useLocation();
     const [transitionIndex, setTransitionIndex] = useState<0 | 1 | 2 | 3>(0);
 
     const navigate = async (route : string) => {
 
         if(transitionIndex !== 0) return
+        if(location?.pathname === route) return;
 
         setTransitionIndex(1);
         await new Promise((resolve) => setTimeout(resolve, 300));

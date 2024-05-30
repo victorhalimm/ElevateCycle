@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import MainTemplate from "@/templates/main-template";
 import { Input } from "@/components/ui/input";
 import { FaArrowRight } from "react-icons/fa";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useUser } from "@/contexts/user-context";
 import { Task } from "@/lib/types/task";
@@ -35,6 +35,7 @@ export const HomePage = () => {
         let unsubscribeFirestore = () => {};
         
         if(user !== null) {
+            // const q = query(collection(db, 'tasks'), orderBy('completed'), where('uid', "==", user.uid));
             const q = query(collection(db, 'tasks'), where('uid', "==", user.uid));
             unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
                 let tasksResult : Task[] = [];
