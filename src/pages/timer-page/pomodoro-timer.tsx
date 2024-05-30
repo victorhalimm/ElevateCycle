@@ -41,11 +41,11 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
   };
 
   const handleSettings = () => {
-
-  }
+    console.log("settings");
+  };
 
   useEffect(() => {
-    resetTimer(); 
+    resetTimer();
   }, [mode]);
 
   const strokeDashoffset =
@@ -57,24 +57,37 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
         <div className="flex w-full gap-4 items-center">
           <Button
             onClick={handlePomodoroMode}
-            className={`${mode === TimerMode.Pomodoro && 'bg-pageCream text-pageBlack'} transition-colors duration-100  border-pageCream border-2 font-medium text-sm flex items-center  p-4 rounded-lg gap-2`}
+            className={`${
+              mode === TimerMode.Pomodoro &&
+              "bg-pageCream text-pageBlack hover:bg-pageCream"
+            } transition-colors duration-100  border-pageCream border-2 font-medium text-sm flex items-center  p-4 rounded-lg gap-2`}
           >
             Pomodoro
           </Button>
           <Button
             onClick={handleShortMode}
-            className="border-pageCream border-2 font-medium text-sm flex items-center text-pageCream p-4 rounded-lg gap-2"
+            className={`${
+              mode === TimerMode.ShortBreak &&
+              "bg-pageCream text-pageBlack hover:bg-pageCream"
+            }border-pageCream border-2 font-medium text-sm flex items-center p-4 rounded-lg gap-2`}
           >
             Short Break
           </Button>
           <Button
             onClick={handleLongMode}
-            className="border-pageCream border-2 font-medium text-sm flex items-center text-pageCream p-4 rounded-lg gap-2"
+            className={`${
+              mode === TimerMode.LongBreak &&
+              "bg-pageCream text-pageBlack hover:bg-pageCream"
+            }border-pageCream border-2 font-medium text-sm flex items-center p-4 rounded-lg gap-2
+          `}
           >
             Long Break
           </Button>
         </div>
-        <Button className="bg-transparent text-pageCream text-4xl">
+        <Button
+          onClick={handleSettings}
+          className="bg-transparent text-pageCream text-4xl"
+        >
           <CiSettings />
         </Button>
       </div>
