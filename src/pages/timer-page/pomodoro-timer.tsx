@@ -4,92 +4,118 @@ import { useEffect, useState } from "react";
 import { CiPlay1 } from "react-icons/ci";
 import { CiPause1 } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
+import { MdOutlineReplay } from "react-icons/md";
+import TimerSettings from "./timer-settings";
 
-enum TimerMode {
-  Pomodoro = 1500, // 25 minutes
-  ShortBreak = 300, // 5 minutes
-  LongBreak = 900, // 15 minutes
+export interface DurationProps {
+  Pomodoro: number;
+  Short: number;
+  Long: number;
 }
 
+const LOCAL_STORAGE_KEY = "pomodoro-timer-config";
+
+const getStoredConfig = (): DurationProps | null => {
+  const storedConfig = localStorage.getItem(LOCAL_STORAGE_KEY);
+  return storedConfig ? JSON.parse(storedConfig) : null;
+};
+
+const saveConfig = (config: DurationProps) => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(config));
+};
+
+
 const PomodoroTimer = ({ className }: { className?: string }) => {
-  const [mode, setMode] = useState(TimerMode.Pomodoro);
+  
+  const [duration, setDuration] = useState<DurationProps>({
+    Pomodoro: 1500,
+    Short: 300,
+    Long: 900,
+  });
+
+  const [mode, setMode] = useState(duration.Pomodoro);
 
   const { timeLeft, startTimer, pauseTimer, resetTimer, isActive } =
     useTimer(mode);
 
-  const timerFormat = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-
-  const size = 350;
-  const strokeWidth = 7;
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-
-  const handlePomodoroMode = () => {
-    setMode(TimerMode.Pomodoro);
-  };
-
-  const handleShortMode = () => {
-    setMode(TimerMode.ShortBreak);
-  };
-
-  const handleLongMode = () => {
-    setMode(TimerMode.LongBreak);
-  };
-
-  const handleSettings = () => {
-    console.log("settings");
-  };
-
-  useEffect(() => {
-    resetTimer();
-  }, [mode]);
-
-  const strokeDashoffset =
+    
+    const handleSettingsChange = (newConfig: DurationProps) => {
+      setDuration(newConfig);
+      saveConfig(newConfig);
+    };
+    
+    const timerFormat = (time: number) => {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
+    
+    const size = 350;
+    const strokeWidth = 7;
+    const radius = (size - strokeWidth) / 2;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset =
     -1 * (circumference - (timeLeft / (25 * 60)) * circumference);
-
-  return (
-    <div className={`relative flex flex-col gap-6 items-center ${className}`}>
+    
+    const handlePomodoroMode = () => {
+      setMode(duration.Pomodoro);
+    };
+    
+    const handleShortMode = () => {
+      setMode(duration.Short);
+    };
+    
+    const handleLongMode = () => {
+      setMode(duration.Long);
+    };
+    
+    useEffect(() => {
+      resetTimer();
+    }, [mode]);
+    
+    useEffect(() => {
+      const storedConfig = getStoredConfig();
+      if (storedConfig) {
+        setDuration(storedConfig);
+      } else {
+        saveConfig(duration);
+      }
+      resetTimer();
+    }, [mode]);
+    
+    return (
+      <div className={`relative flex flex-col gap-6 items-center ${className}`}>
       <div className="flex gap-4 items-center">
         <div className="flex w-full gap-4 items-center">
           <Button
             onClick={handlePomodoroMode}
             className={`${
-              mode === TimerMode.Pomodoro &&
+              mode === duration.Pomodoro &&
               "bg-pageCream text-pageBlack hover:bg-pageCream"
-            } transition-colors duration-100  border-pageCream border-2 font-medium text-sm flex items-center  p-4 rounded-lg gap-2`}
+            } transition-colors duration-100  border-pageCream border-2 font-medium text-base flex items-center  p-6 rounded-lg gap-2`}
           >
             Pomodoro
           </Button>
           <Button
             onClick={handleShortMode}
             className={`${
-              mode === TimerMode.ShortBreak &&
+              mode === duration.Short &&
               "bg-pageCream text-pageBlack hover:bg-pageCream"
-            }border-pageCream border-2 font-medium text-sm flex items-center p-4 rounded-lg gap-2`}
+            }border-pageCream border-2 font-medium text-base flex items-center p-6  rounded-lg gap-2`}
           >
             Short Break
           </Button>
           <Button
             onClick={handleLongMode}
             className={`${
-              mode === TimerMode.LongBreak &&
+              mode === duration.Long &&
               "bg-pageCream text-pageBlack hover:bg-pageCream"
-            }border-pageCream border-2 font-medium text-sm flex items-center p-4 rounded-lg gap-2
+            }border-pageCream border-2 font-medium text-base flex items-center p-6  rounded-lg gap-2
           `}
           >
             Long Break
           </Button>
         </div>
-        <Button
-          onClick={handleSettings}
-          className="bg-transparent text-pageCream text-4xl"
-        >
-          <CiSettings />
-        </Button>
       </div>
       <svg width={size} height={size} className="mx-auto">
         <circle
@@ -123,7 +149,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
           {timerFormat(timeLeft)}
         </text>
       </svg>
-      <div className="space-x-4 mt-4 flex">
+      <div className=" mt-4 flex items-center">
         <Button
           onClick={startTimer}
           disabled={isActive}
@@ -135,17 +161,21 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
         <Button
           onClick={pauseTimer}
           disabled={!isActive}
-          className="border-pageCream border-2 text-lg flex items-center text-pageCream p-6 rounded-lg gap-2"
+          className="w-fit bg-transparent text-pageCream text-4xl"
         >
           <CiPause1 />
-          Pause
         </Button>
         <Button
           onClick={resetTimer}
-          className="border-pageCream border-2 text-lg text-pageCream p-6 rounded-lg"
+          className="w-fit bg-transparent text-pageCream text-4xl"
         >
-          Reset
+          <MdOutlineReplay />
         </Button>
+        <TimerSettings duration={duration} handleSettingsChange={handleSettingsChange}>
+          <Button className="bg-transparent text-pageCream text-4xl">
+            <CiSettings />
+          </Button>
+        </TimerSettings>
       </div>
     </div>
   );

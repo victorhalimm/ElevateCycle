@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const useTimer = (initialTime = 25 * 60) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isActive, setIsActive] = useState(false);
-
+  
   useEffect(() => {
     // @ts-expect-error If the timer is left null
     let timer : NodeJS.Timeout = null;
