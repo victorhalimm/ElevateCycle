@@ -1,4 +1,3 @@
-import Header from "../header/header";
 import DarkLogo from '../../assets/dark-logo.png';
 import { routeCollection } from "@/lib/routes/route-collection";
 import { useLocation } from "react-router-dom";
