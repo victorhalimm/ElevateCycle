@@ -6,7 +6,6 @@ import { CiPause1 } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineReplay } from "react-icons/md";
 import TimerSettings from "./timer-settings";
-import LoadingBar from "@/components/loader/loading-bar";
 
 //Should be Pomodoro Settings
 export interface DurationProps {
@@ -45,6 +44,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
   
   const handleSettingsChange = (newConfig: DurationProps) => {
     setDuration(newConfig);
+    setMode(newConfig.Pomodoro);
     saveConfig(newConfig);
   };
   
@@ -59,7 +59,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset =
-  -1 * (circumference - (timeLeft / (25 * 60)) * circumference);
+  -1 * (circumference - (timeLeft / ( mode)) * circumference);
   
   const handlePomodoroMode = () => {
     setMode(duration.Pomodoro);
@@ -73,9 +73,11 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
     setMode(duration.Long);
   };
   
+
+
   useEffect(() => {
     resetTimer();
-    }, [mode]);
+  }, [mode]);
     
     useEffect(() => {
       const storedConfig = getStoredConfig();
@@ -88,6 +90,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
       }
       resetTimer();
     }, []);
+
     
     return (
       <div className={`relative flex flex-col gap-6 items-center ${className}`}>
@@ -102,6 +105,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
           >
             Pomodoro
           </Button>
+          
           <Button
             onClick={handleShortMode}
             className={`${
