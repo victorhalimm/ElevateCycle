@@ -11,9 +11,12 @@ import { DurationProps } from "./pomodoro-timer";
 import { Input } from "@/components/ui/input";
 import { changeSecondToMinute } from "@/lib/types/timer";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 interface TimerSettingsProps {
   children: JSX.Element;
+  countdownActive : boolean;
+  setCountdownActive : (countdownActive : boolean) => void;
   duration: DurationProps;
   setDuration: (duration: DurationProps) => void;
   handleSettingsChange: (duration: DurationProps) => void;
@@ -24,6 +27,8 @@ const TimerSettings = ({
   duration,
   setDuration,
   handleSettingsChange,
+  setCountdownActive,
+  countdownActive
 }: TimerSettingsProps) => {
 
 
@@ -44,7 +49,7 @@ const TimerSettings = ({
           <DialogDescription className="text-pageCream opacity-50">
             Configure your preference for the provided Pomodoro Timer.
           </DialogDescription>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-8">
             <div className="flex justify-between gap-4">
               <div className="flex flex-col w-full">
                 <label htmlFor="pomodoro" className="text-base">Pomodoro</label>
@@ -82,6 +87,15 @@ const TimerSettings = ({
                   />
                 </div>
               </div>
+            </div>
+            <div className="w-full flex justify-between items-center">
+              <div className="text-base max-w-[70%] text-pageCream font-semibold flex flex-col">
+                Use Countdown before timer starts
+                <div className="opacity-60">
+                  Enable this setting to have a countdown before the timer starts.
+                </div>
+              </div>
+              <Switch checked={countdownActive} onCheckedChange={(checked) => setCountdownActive(checked)} className="data-[state=checked]:bg-pageBlue data-[state=unchecked]:bg-slate-300"/>
             </div>
           </div>
         </DialogHeader>

@@ -1,11 +1,11 @@
-import useTimer from "@/components/hooks/timer-hooks";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { CiPlay1 } from "react-icons/ci";
 import { CiPause1 } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineReplay } from "react-icons/md";
 import TimerSettings from "./timer-settings";
+import { useTimerContext } from "@/contexts/timer-context";
 
 //Should be Pomodoro Settings
 export interface DurationProps {
@@ -14,86 +14,65 @@ export interface DurationProps {
   Long: number;
 }
 
-const LOCAL_STORAGE_KEY = "pomodoro-timer-config";
-
-const getStoredConfig = (): DurationProps | null => {
-  const storedConfig = localStorage.getItem(LOCAL_STORAGE_KEY);
-  return storedConfig ? JSON.parse(storedConfig) : null;
-};
-
-const saveConfig = (config: DurationProps) => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(config));
-};
-
-
 const PomodoroTimer = ({ className }: { className?: string }) => {
+  const {
+    duration,
+    setDuration,
+    mode,
+    setMode,
+    handleSettingsChange,
+    timerProps: { timeLeft, startTimer, pauseTimer, resetTimer, isActive, countdown, isCountdownActive },
+    countdownActive,
+    setCountdownActive
+  } = useTimerContext();
 
-  const defaultDuration: DurationProps = {
-    Pomodoro: 25 * 60, // 25 minutes
-    Short: 5 * 60,     // 5 minutes
-    Long: 15 * 60      // 15 minutes
-  };
-  
-  const [duration, setDuration] = useState<DurationProps>(defaultDuration);
-  
-  const [mode, setMode] = useState(duration.Pomodoro);
-  
-  const { timeLeft, startTimer, pauseTimer, resetTimer, isActive } =
-  useTimer(mode);
-  
-  
-  const handleSettingsChange = (newConfig: DurationProps) => {
-    setDuration(newConfig);
-    setMode(newConfig.Pomodoro);
-    saveConfig(newConfig);
-  };
-  
   const timerFormat = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
-  
+
   const size = 350;
   const strokeWidth = 7;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset =
-  -1 * (circumference - (timeLeft / ( mode)) * circumference);
-  
+    -1 * (circumference - (timeLeft / mode) * circumference);
+
   const handlePomodoroMode = () => {
     setMode(duration.Pomodoro);
   };
-  
+
   const handleShortMode = () => {
     setMode(duration.Short);
   };
-  
+
   const handleLongMode = () => {
     setMode(duration.Long);
   };
-  
-
 
   useEffect(() => {
     resetTimer();
   }, [mode]);
-    
-    useEffect(() => {
-      const storedConfig = getStoredConfig();
-      if (storedConfig) {
-        setDuration(storedConfig);
-        setMode(storedConfig.Pomodoro);
-      } else {
-        saveConfig(defaultDuration);
-        setMode(defaultDuration.Pomodoro);
-      }
-      resetTimer();
-    }, []);
 
-    
-    return (
-      <div className={`relative flex flex-col gap-6 items-center ${className}`}>
+  // useEffect(() => {
+  //   const storedConfig = getStoredConfig();
+  //   if (storedConfig) {
+  //     setDuration(storedConfig);
+  //     setMode(storedConfig.Pomodoro);
+  //   } else {
+  //     saveConfig(defaultDuration);
+  //     setMode(defaultDuration.Pomodoro);
+  //   }
+  //   resetTimer();
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(isCountdownActive)
+  // }, [isCountdownActive])
+
+  return (
+    <div className={`relative flex flex-col gap-6 items-center ${className}`}>
       <div className="flex gap-4 items-center">
         <div className="flex w-full gap-4 items-center">
           <Button
@@ -105,7 +84,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
           >
             Pomodoro
           </Button>
-          
+
           <Button
             onClick={handleShortMode}
             className={`${
@@ -156,7 +135,9 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
           fontWeight={600}
           fill="#F1F0E1"
         >
-          {timerFormat(timeLeft)}
+          {
+            isCountdownActive ? countdown : timerFormat(timeLeft)
+          }
         </text>
       </svg>
       <div className=" mt-4 flex items-center">
@@ -181,13 +162,19 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
         >
           <MdOutlineReplay />
         </Button>
-        {duration &&
-          <TimerSettings setDuration={setDuration} duration={duration} handleSettingsChange={handleSettingsChange}>
+        {duration && (
+          <TimerSettings
+            setDuration={setDuration}
+            setCountdownActive={setCountdownActive}
+            countdownActive={countdownActive}
+            duration={duration}
+            handleSettingsChange={handleSettingsChange}
+          >
             <Button className="bg-transparent text-pageCream text-4xl">
               <CiSettings />
             </Button>
           </TimerSettings>
-        }
+        )}
       </div>
     </div>
   );
