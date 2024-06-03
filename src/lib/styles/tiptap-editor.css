@@ -1,0 +1,40 @@
+.tiptap .ProseMirror {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow-wrap: break-word !important;
+    word-break: break-all;
+  }
+  
+  .tiptap .ProseMirror:focus,
+  .tiptap .ProseMirror:active {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .tiptap h1 {
+    font-size: 2em;
+  }
+
+  .tiptap h2 {
+    font-size: 1.5em;
+  }
+
+  .tiptap ul {
+    list-style: revert !important;
+    padding-left: 24px;
+  }
+
+  .tiptap ol {
+    list-style: decimal;
+    padding-left: 24px;
+  }
+
+  .tiptap ol ol {
+    list-style: lower-alpha;
+  }
+
+  .tiptap ol ol ol {
+    list-style: lower-roman;
+  }

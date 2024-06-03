@@ -3,6 +3,7 @@ import { Toaster } from "./components/ui/sonner";
 import NavigatorContextProvider from "./contexts/navigator-context";
 import UserContextProvider from "./contexts/user-context";
 import { routeCollection } from "./lib/routes/route-collection";
+import './App.css';
 
 function App() {
 

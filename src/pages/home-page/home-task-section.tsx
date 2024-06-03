@@ -25,7 +25,8 @@ const HomeTaskSection = ({tasks} : props) => {
         const task : Task = {
             title: newTask,
             uid: user.uid,
-            completed: false
+            completed: false,
+            date: new Date()
         }
 
         setNewTask('')
@@ -45,16 +46,16 @@ const HomeTaskSection = ({tasks} : props) => {
                 </div>
             </div>
             
-            <div className="bg-darkCream gap-1 w-full h-[20%] px-4 py-6 flex-col flex justify-between">
-                <p className="font-chakra text-pageCream text-sm">ADD TASK</p>
+            <div className="bg-darkCream text-pageBlack gap-1 w-full h-[20%] px-4 py-6 flex-col flex justify-between">
+                <p className="font-chakra text-sm font-bold">ADD TASK</p>
                 <div className="w-full flex justify-between relative font-chakra">
                     <Input 
-                        className="bg-transparent rounded-sm border-pageCream border-opacity-60 placeholder:text-pageCream placeholder:text-opacity-60 focus-visible:ring-0 transition-all duration-300 text-white focus:bg-black focus:bg-opacity-15" 
+                        className="bg-transparent rounded-sm border-pageBlack border-opacity-60 placeholder:text-pageBlack placeholder:text-opacity-60 focus-visible:ring-0 transition-all duration-300 text-white focus:bg-black focus:bg-opacity-15" 
                         placeholder="Add New Tasks" value={newTask}
                         onChange={(e) => setNewTask(e.target.value)} onKeyDown={(e) => {e.key === 'Enter' && createTask()}}
                     />
                     <div className="absolute right-3 h-full flex items-center">
-                        <FaArrowRight className="text-lg text-pageCream cursor-pointer" onClick={createTask}/>
+                        <FaArrowRight className="text-lg cursor-pointer opacity-70" onClick={createTask}/>
                     </div>
                 </div>
             </div>
