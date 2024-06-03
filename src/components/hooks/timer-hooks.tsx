@@ -2,8 +2,23 @@ import { useState, useEffect } from 'react';
 import CountdownSound from '@/assets/sound-effects/countdown-sound.mp3';
 
 const useTimer = (initialTime = 25 * 60, enableCountdown = false) => {
-  const [timeLeft, setTimeLeft] = useState(initialTime);
-  const [isActive, setIsActive] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(() => {
+    // Retrieve the last saved time left from local storage if it exists
+    const savedTimeLeft = localStorage.getItem("timeLeft");
+    return savedTimeLeft ? parseInt(savedTimeLeft, 10) : initialTime;
+  });
+
+  const [isActive, setIsActive] = useState(() => {
+    // Restore the timer active state from local storage
+    const isActive = localStorage.getItem("isActive");
+    return isActive === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("timeLeft", timeLeft.toString());
+    localStorage.setItem("isActive", isActive.toString());
+  }, [timeLeft, isActive]);
+
   const [countdown, setCountdown] = useState(3); 
   const [isCountdownActive, setIsCountdownActive] = useState(false);
   const audio = new Audio(CountdownSound);

@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { CiPlay1 } from "react-icons/ci";
 import { CiPause1 } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineReplay } from "react-icons/md";
 import TimerSettings from "./timer-settings";
 import { useTimerContext } from "@/contexts/timer-context";
+import CircularTimer from "@/components/timer/circular-timer";
 
 //Should be Pomodoro Settings
 export interface DurationProps {
@@ -21,38 +22,48 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
     mode,
     setMode,
     handleSettingsChange,
-    timerProps: { timeLeft, startTimer, pauseTimer, resetTimer, isActive, countdown, isCountdownActive },
+    timerProps: {
+      timeLeft,
+      startTimer,
+      pauseTimer,
+      resetTimer,
+      isActive,
+      countdown,
+      isCountdownActive,
+    },
     countdownActive,
-    setCountdownActive
+    setCountdownActive,
   } = useTimerContext();
 
-  const timerFormat = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
+  const [modeChanged, setModeChanged] = useState(false);
 
   const size = 350;
   const strokeWidth = 7;
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset =
-    -1 * (circumference - (timeLeft / mode) * circumference);
+
 
   const handlePomodoroMode = () => {
+    console.log("pomodoro clicked");
     setMode(duration.Pomodoro);
+    setModeChanged(true);
   };
 
   const handleShortMode = () => {
+    console.log("short clicked");
     setMode(duration.Short);
+    setModeChanged(true);
   };
 
   const handleLongMode = () => {
+    console.log("long clicked");
     setMode(duration.Long);
+    setModeChanged(true);
   };
 
   useEffect(() => {
-    resetTimer();
+    if (modeChanged) {
+      resetTimer();
+      setModeChanged(false);
+    }
   }, [mode]);
 
   // useEffect(() => {
@@ -106,40 +117,15 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
           </Button>
         </div>
       </div>
-      <svg width={size} height={size} className="mx-auto">
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          strokeWidth={strokeWidth}
-          stroke="#506385"
-          fill="transparent"
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          strokeWidth={strokeWidth}
-          stroke="lightgray"
-          fill="transparent"
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          transform={`rotate(-90 ${size / 2} ${size / 2})`}
-        />
+      <CircularTimer
+        size={size}
+        strokeWidth={strokeWidth}
+        timeLeft={isCountdownActive ? countdown : timeLeft}
+        totalTime={mode}
+        countdown={countdown}
+        isCountdownActive={isCountdownActive}
+      />
 
-        <text
-          x="50%"
-          y="55%"
-          textAnchor="middle"
-          fontSize="56"
-          fontWeight={600}
-          fill="#F1F0E1"
-        >
-          {
-            isCountdownActive ? countdown : timerFormat(timeLeft)
-          }
-        </text>
-      </svg>
       <div className=" mt-4 flex items-center">
         <Button
           onClick={startTimer}
