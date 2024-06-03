@@ -93,9 +93,42 @@ export default function DailyJournalPage() {
     return (
         <>
             <EditorContent editor={editor} className="PromiseMirror tiptap text-pageCream focus-visible:outline-none focus:outline-none active:outline-none border-none ring-0"/>
-            <div className="min-h-48">
-                <h1 onClick={() =>  editor?.chain().focus().toggleHeading({level: 1}).run()} className="text-white">What do you want to do today?</h1>
-
+            <div className="min-h-48 text-pageCream mt-12">
+                <h1 onClick={() =>  editor?.chain().focus().toggleHeading({level: 1}).run()} className="">What do you want to do today?</h1>
+                <table className="table-auto text-left align-top">
+                    <thead>
+                        <tr>
+                            <th className="p-2 align-top">Time</th>
+                            <th className="p-2 align-top">Task</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="p-2 align-top">07:00-11:00</td>
+                            <td className="p-2 align-top">
+                                <p>Test</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="p-2 align-top">12:00-15:00</td>
+                            <td className="p-2 align-top">
+                                <p>Test</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="p-2 align-top">16:00-19:00</td>
+                            <td className="p-2 align-top">
+                                <p>Test</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="p-2 align-top">19:00-22:30</td>
+                            <td className="p-2 align-top">
+                                <p>Test</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </>
     )
