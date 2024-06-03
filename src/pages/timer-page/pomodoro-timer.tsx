@@ -7,6 +7,7 @@ import { CiSettings } from "react-icons/ci";
 import { MdOutlineReplay } from "react-icons/md";
 import TimerSettings from "./timer-settings";
 
+//Should be Pomodoro Settings
 export interface DurationProps {
   Pomodoro: number;
   Short: number;
@@ -26,62 +27,70 @@ const saveConfig = (config: DurationProps) => {
 
 
 const PomodoroTimer = ({ className }: { className?: string }) => {
+
+  const defaultDuration: DurationProps = {
+    Pomodoro: 25 * 60, // 25 minutes
+    Short: 5 * 60,     // 5 minutes
+    Long: 15 * 60      // 15 minutes
+  };
   
-  const [duration, setDuration] = useState<DurationProps>({
-    Pomodoro: 1500,
-    Short: 300,
-    Long: 900,
-  });
-
+  const [duration, setDuration] = useState<DurationProps>(defaultDuration);
+  
   const [mode, setMode] = useState(duration.Pomodoro);
-
+  
   const { timeLeft, startTimer, pauseTimer, resetTimer, isActive } =
-    useTimer(mode);
+  useTimer(mode);
+  
+  
+  const handleSettingsChange = (newConfig: DurationProps) => {
+    setDuration(newConfig);
+    setMode(newConfig.Pomodoro);
+    saveConfig(newConfig);
+  };
+  
+  const timerFormat = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+  
+  const size = 350;
+  const strokeWidth = 7;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset =
+  -1 * (circumference - (timeLeft / ( mode)) * circumference);
+  
+  const handlePomodoroMode = () => {
+    setMode(duration.Pomodoro);
+  };
+  
+  const handleShortMode = () => {
+    setMode(duration.Short);
+  };
+  
+  const handleLongMode = () => {
+    setMode(duration.Long);
+  };
+  
 
-    
-    const handleSettingsChange = (newConfig: DurationProps) => {
-      setDuration(newConfig);
-      saveConfig(newConfig);
-    };
-    
-    const timerFormat = (time: number) => {
-      const minutes = Math.floor(time / 60);
-      const seconds = time % 60;
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    };
-    
-    const size = 350;
-    const strokeWidth = 7;
-    const radius = (size - strokeWidth) / 2;
-    const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset =
-    -1 * (circumference - (timeLeft / (25 * 60)) * circumference);
-    
-    const handlePomodoroMode = () => {
-      setMode(duration.Pomodoro);
-    };
-    
-    const handleShortMode = () => {
-      setMode(duration.Short);
-    };
-    
-    const handleLongMode = () => {
-      setMode(duration.Long);
-    };
-    
-    useEffect(() => {
-      resetTimer();
-    }, [mode]);
+
+  useEffect(() => {
+    resetTimer();
+  }, [mode]);
     
     useEffect(() => {
       const storedConfig = getStoredConfig();
       if (storedConfig) {
         setDuration(storedConfig);
+        setMode(storedConfig.Pomodoro);
       } else {
-        saveConfig(duration);
+        saveConfig(defaultDuration);
+        setMode(defaultDuration.Pomodoro);
       }
       resetTimer();
-    }, [mode]);
+    }, []);
+
     
     return (
       <div className={`relative flex flex-col gap-6 items-center ${className}`}>
@@ -96,6 +105,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
           >
             Pomodoro
           </Button>
+          
           <Button
             onClick={handleShortMode}
             className={`${
@@ -171,11 +181,13 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
         >
           <MdOutlineReplay />
         </Button>
-        <TimerSettings duration={duration} handleSettingsChange={handleSettingsChange}>
-          <Button className="bg-transparent text-pageCream text-4xl">
-            <CiSettings />
-          </Button>
-        </TimerSettings>
+        {duration &&
+          <TimerSettings setDuration={setDuration} duration={duration} handleSettingsChange={handleSettingsChange}>
+            <Button className="bg-transparent text-pageCream text-4xl">
+              <CiSettings />
+            </Button>
+          </TimerSettings>
+        }
       </div>
     </div>
   );

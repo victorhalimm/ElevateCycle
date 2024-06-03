@@ -10,30 +10,26 @@ import { DialogClose, DialogTrigger } from "@radix-ui/react-dialog";
 import { DurationProps } from "./pomodoro-timer";
 import { Input } from "@/components/ui/input";
 import { changeSecondToMinute } from "@/lib/types/timer";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface TimerSettingsProps {
   children: JSX.Element;
   duration: DurationProps;
+  setDuration: (duration: DurationProps) => void;
   handleSettingsChange: (duration: DurationProps) => void;
 }
 
 const TimerSettings = ({
   children,
   duration,
+  setDuration,
   handleSettingsChange,
 }: TimerSettingsProps) => {
 
 
-  const [tempDuration, setTempDuration] = useState<DurationProps>({
-    Pomodoro: duration.Pomodoro,
-    Long: duration.Long,
-    Short: duration.Short,
-  })
-
   const handleDurationChange = (type : keyof DurationProps, value : number) => {
-    setTempDuration((prev) => ({
+    // @ts-expect-error Any gajels
+    setDuration((prev) => ({
       ...prev,
       [type]: value * 60
     }))
@@ -57,7 +53,7 @@ const TimerSettings = ({
                     id="pomodoro"
                     className="bg-pageBlack border-pageCream"
                     type="number"
-                    value={changeSecondToMinute(tempDuration.Pomodoro)}
+                    value={changeSecondToMinute(duration.Pomodoro)}
                     onChange={(e) => handleDurationChange("Pomodoro", Number(e.target.value))}
                   />
                 </div>
@@ -69,7 +65,7 @@ const TimerSettings = ({
                     id="short"
                     className="bg-pageBlack border-pageCream"
                     type="number"
-                    value={changeSecondToMinute(tempDuration.Short)}
+                    value={changeSecondToMinute(duration.Short)}
                     onChange={(e) => handleDurationChange("Short", Number(e.target.value))}
                   />
                 </div>
@@ -81,7 +77,7 @@ const TimerSettings = ({
                     id="long"
                     className="bg-pageBlack border-pageCream"
                     type="number"
-                    value={changeSecondToMinute(tempDuration.Long)}
+                    value={changeSecondToMinute(duration.Long)}
                     onChange={(e) => handleDurationChange("Long", Number(e.target.value))}
                   />
                 </div>
@@ -92,7 +88,7 @@ const TimerSettings = ({
         <DialogFooter>
           <DialogClose>
             <Button
-              onClick={() => handleSettingsChange(tempDuration)}
+              onClick={() => handleSettingsChange(duration)}
               className="bg-pageBlue text-pageCream font-semibold p-4 rounded-lg"
               type="submit"
             >
