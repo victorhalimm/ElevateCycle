@@ -32,7 +32,7 @@ const RegisterSubpage = ({changeSubpage} : params) => {
         setLoading(true);
         if(userData.password !== userData.confirmPassword) {
             setError('Password and Confirm Password does not match');
-            setLoading(false);
+            setLoading  (false);
             return;
         }
         if(userData.password.length < 6) {
