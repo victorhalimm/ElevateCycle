@@ -4,16 +4,20 @@ import IChildren from "@/lib/types/children";
 import Underline from "@tiptap/extension-underline";
 import { Editor, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { MdFormatBold, MdFormatItalic, MdFormatListBulleted, MdFormatListNumbered, MdFormatUnderlined } from "react-icons/md";
 import { TbHeading } from "react-icons/tb";
+import { IoIosSettings } from "react-icons/io";
+import { IoInformationOutline } from "react-icons/io5";
+import { CgSpinner } from "react-icons/cg";
 
 type TiptapEditorContextType = {
     editor : Editor | null;
     toolBar : JSX.Element[] | JSX.Element;
+    setSaving: (saving: boolean) => void;
 }
 
-export const TiptapEditorContext = createContext<TiptapEditorContextType>({editor: null, toolBar: <></>});
+export const TiptapEditorContext = createContext<TiptapEditorContextType>({editor: null, toolBar: <></>, setSaving: () => {}});
 
 export default function TiptapEditorContextProvider({children} : IChildren) {
 
@@ -32,6 +36,8 @@ export default function TiptapEditorContextProvider({children} : IChildren) {
         ],
         content: '',
     })
+
+    const [saving, setSaving] = useState(false);
 
     const toolBar = (
         <>
@@ -69,11 +75,35 @@ export default function TiptapEditorContextProvider({children} : IChildren) {
                 icon={<MdFormatListNumbered />}
             />
         </div>
+        <div className="flex items-center">
+            {
+                saving ? (
+                    <div className="flex items-center gap-2 text-pageCream mr-4 text-sm font-chakra opacity-30">
+                        <CgSpinner className="animate-spin" />
+                        <p>Saving</p>
+                    </div>
+                ) : (
+                    <></>
+                )
+            }
+            <ToggleButton
+                className="opacity-30 hover:opacity-100"
+                isToggled={false}
+                onToggle={() => {}}
+                icon={<IoInformationOutline  />}
+            />
+            <ToggleButton
+                className="opacity-30 hover:opacity-100"
+                isToggled={false}
+                onToggle={() => {}}
+                icon={<IoIosSettings />}
+            />
+        </div>
         </>
     )
 
     return (
-        <TiptapEditorContext.Provider value={{editor: editor, toolBar: toolBar}}>
+        <TiptapEditorContext.Provider value={{editor: editor, toolBar: toolBar, setSaving: setSaving}}>
             {children}
         </TiptapEditorContext.Provider>
     )

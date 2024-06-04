@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import MainTemplate from "@/templates/main-template";
 import { Input } from "@/components/ui/input";
 import { FaArrowRight } from "react-icons/fa";
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, Timestamp, where } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useUser } from "@/contexts/user-context";
 import { Task } from "@/lib/types/task";
 import HomeTaskSection from "./home-task-section";
 import homeDecor from "@/assets/images/home-decor.png"
+import { endOfDay, startOfDay } from "@/lib/utils/date-utils";
 
 export const HomePage = () => {
 
@@ -21,36 +22,43 @@ export const HomePage = () => {
     useEffect(() => {
         const getQuote = async () => {
 
+            if(quotes.length > 0) return;
+           
             const category = 'inspirational';
             try {
                 const fetchedQuote = await fetchQuote(category);
-                setQuotes(fetchedQuote);
 
-                console.log(fetchedQuote);
+                if(fetchedQuote[0].quote.length > 200) {
+                    getQuote();
+                    return;
+                }
+                setQuotes(fetchedQuote);
             } catch (error) {
                 console.error('Error fetching quote', error);
             }
         };
 
-
-        if(quotes.length === 0) {
-            getQuote();
-        }
+        getQuote();
             
     }, [quotes])
-
+    
     useEffect(() => {
         
         let unsubscribeFirestore = () => {};
         
         if(user !== null) {
             // const q = query(collection(db, 'tasks'), orderBy('completed'), where('uid', "==", user.uid));
-            const q = query(collection(db, 'tasks'), where('uid', "==", user.uid));
+            const q = query(
+                collection(db, 'tasks'),
+                where('uid', "==", user.uid),
+            );
             unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
                 let tasksResult : Task[] = [];
                 querySnapshot.forEach((doc) => {
-                    //@ts-ignore
-                    tasksResult.push({ id: doc.id, ...doc.data() });
+                    let docDate = doc.data().date.toDate()
+                    if(docDate >= startOfDay(new Date()) && docDate <= endOfDay(new Date()))
+                        //@ts-ignore
+                        tasksResult.push({ id: doc.id, ...doc.data() });
                 });
                 // tasksResult.sort((a,b) => (a.completed > b.completed) ? 1 : ((b.completed > a.completed) ? -1 : 0))
                 setTasks(tasksResult);
@@ -91,9 +99,9 @@ export const HomePage = () => {
                         <p className="font-chakra text-pageCream text-4xl font-medium z-10">QUOTE OF THE DAY</p>
                         {
                             quotes && quotes.length > 0 ? (
-                                <p className="font-chakra text-pageCream text-sm">{quotes[0].quote}</p>
+                                <p className="font-chakra text-pageCream text-sm z-10">{quotes[0].quote}</p>
                             ) : (
-                                <p className="font-chakra text-pageCream text-sm">Loading...</p>
+                                <p className="font-chakra text-pageCream text-sm z-10">Loading...</p>
                             )
                         }
                         

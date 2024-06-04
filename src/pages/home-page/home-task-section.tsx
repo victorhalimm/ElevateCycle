@@ -5,7 +5,7 @@ import { useTimerContext } from "@/contexts/timer-context";
 import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
 import { Task } from "@/lib/types/task";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -27,7 +27,8 @@ const HomeTaskSection = ({ tasks }: props) => {
       title: newTask,
       uid: user.uid,
       completed: false,
-      date: new Date(),
+      // @ts-ignore
+      date: Timestamp.fromDate(new Date()),
     };
 
     setNewTask("");

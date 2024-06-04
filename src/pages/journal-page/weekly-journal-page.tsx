@@ -15,7 +15,7 @@ import useDebounce from "@/lib/hooks/use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 
 
-export default function DailyJournalPage() {
+export default function WeeklyJournalPage() {
 
     const [journal, setJournal] = useState<DailyJournal | null>(null);
 

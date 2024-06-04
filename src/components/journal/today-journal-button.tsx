@@ -16,14 +16,16 @@ export default function TodayJournalButton({mode} : props) {
         navigate(`/journal/${mode}/today`)
     }
 
+    const active = window.location.pathname.includes(`/journal/${mode}/today`)
+
     return (
             <div 
             className="py-2 flex items-center gap-2 cursor-pointer" 
             onMouseOver={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
             onClick={handleClick}
         >
-            <GrDocumentText className={`opacity-30 transition-all duration-200 ${hovered ? "opacity-80" : ""}`}/>
-            <p className={`${hovered ? "opacity-100" : "opacity-60"}`}>{
+            <GrDocumentText className={`transition-all duration-200 ${hovered ? "opacity-80" : ""} ${active ? "opacity-80 text-lighterBlue" : "opacity-30"}`}/>
+            <p className={`${hovered ? "opacity-100" : active ? "opacity-100 text-lighterBlue" : "opacity-60"} `}>{
                 mode === 'daily' ? 'Today' : 'This Week'
             }</p>
         </div>

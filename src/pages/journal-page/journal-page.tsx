@@ -18,6 +18,7 @@ const JournalPage = () => {
 
     const [dailyJournals, setDailyJournals] = useState<DailyJournal[]>([])
     const [weeklyJournals, setWeeklyJournals] = useState<WeeklyJournal[]>([])
+    const [accordionValue, setAccordionValue] = useState<string>("")
     const location = useLocation();
 
     const user = useUser();
@@ -44,6 +45,12 @@ const JournalPage = () => {
                 unsubscribeFirestore();
             }
         })()
+
+        if(location.pathname.includes('daily')) {
+            setAccordionValue('daily')
+        } else if(location.pathname.includes('weekly')) {
+            setAccordionValue('weekly')
+        }
     }, [])
 
     return (
@@ -53,9 +60,9 @@ const JournalPage = () => {
                     <div className="flex-col flex gap-3 h-full w-[20%]">
                         <div className="bg-darkBlue gap-1 w-full h-[100%] px-4 py-6 flex-col flex">
                             <p className="font-chakra text-pageCream text-sm mb-4">JOURNALS</p>
-                            <Accordion type="single" collapsible className="w-full">
-                                <AccordionItem value="item-1" className="border-none font-chakra text-pageCream">
-                                    <AccordionTrigger className="h-10">Daily</AccordionTrigger>
+                            <Accordion type="single" collapsible className="w-full" value={accordionValue}>
+                                <AccordionItem value="daily" className="border-none font-chakra text-pageCream">
+                                    <AccordionTrigger className="h-10" onClick={() => setAccordionValue("daily")}>Daily</AccordionTrigger>
                                     <AccordionContent className="">
                                         <ScrollArea className="flex flex-col max-h-[30vh]">
                                             <TodayJournalButton mode="daily"/>
@@ -67,8 +74,8 @@ const JournalPage = () => {
                                         </ScrollArea>
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-2" className="border-none font-chakra text-pageCream">
-                                    <AccordionTrigger className="h-10">Weekly</AccordionTrigger>
+                                <AccordionItem value="weekly" className="border-none font-chakra text-pageCream">
+                                    <AccordionTrigger className="h-10" onClick={() => setAccordionValue("weekly")}>Weekly</AccordionTrigger>
                                     <AccordionContent className="">
                                         <ScrollArea className="flex flex-col max-h-[30vh]">
                                             <TodayJournalButton mode="weekly"/>
