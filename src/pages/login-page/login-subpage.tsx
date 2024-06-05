@@ -51,7 +51,7 @@ const LoginSubpage = ({changeSubpage} : params) => {
                 <IoMailOutline className='text-pageCream absolute ml-2'/>
                 <input 
                     className='focus-visible:outline-none bg-transparent w-full border-b p-2 indent-7 border-darkCream placeholder:text-darkCream placeholder:text-opacity-30 text-darkCream' 
-                    placeholder='silitonga@saksang.edu' type={'email'} value={userData.email}
+                    placeholder='johndoe@email.com' type={'email'} value={userData.email}
                     onChange={(e) => setUserData({...userData, email: e.target.value})}
                 />
 

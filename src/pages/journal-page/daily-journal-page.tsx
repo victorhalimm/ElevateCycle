@@ -1,18 +1,18 @@
 import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
 import { DailyJournal } from "@/lib/types/journals/daily-journal";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, Timestamp, updateDoc, where } from "firebase/firestore";
+import { EditorContent } from "@tiptap/react";
+import { addDoc, collection, doc, getDoc, getDocs, query, Timestamp, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import "@/lib/styles/tiptap-editor.css"
 import { useTiptapEditor } from "@/contexts/tiptap-editor-context";
-import { GoPlus } from "react-icons/go";
 import DailyTaskTable from "../../components/task/daily-task-table";
 import { endOfDay, startOfDay } from "@/lib/utils/date-utils";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 
 export default function DailyJournalPage() {
@@ -23,6 +23,7 @@ export default function DailyJournalPage() {
     const user = useUser();
 
     const { editor, setSaving } = useTiptapEditor();
+    const [weeklyFocus, setWeeklyFocus] = useState<string[] | null>(null);
 
     const defaultContent = `
         <h1>Daily Gratitude</h1>
@@ -85,8 +86,6 @@ export default function DailyJournalPage() {
         if(user === null) return;
         if(id === undefined) return;
 
-        let unsubscribeFirestore = () => {};
-
         // If today's journal
         if(id === 'today') {
             const q = query(
@@ -132,13 +131,29 @@ export default function DailyJournalPage() {
         }
 
         return () => {
-            unsubscribeFirestore();
             saveJournal();
         }
     }, [user])
     
-    console.log(journal)
-    
+    useEffect(() => {
+        if(journal === null) return;
+        if(user === null) return;
+
+        (async () => {
+            const q = query(
+                collection(db, 'weeklyJournals'), 
+                where('uid', "==", user.uid),
+            );
+            const docSnap = await getDocs(q);
+            if (!docSnap.empty) {
+                docSnap.forEach(doc => {                   
+                    setWeeklyFocus(doc.data().weekly_objectives);
+                })
+            }
+        })();
+
+    }, [journal, user])
+
     useEffect(() => {
         if(journal?.daily_gratitude === undefined || journal?.daily_gratitude === ""){
             editor?.commands.setContent(defaultContent)
@@ -154,7 +169,7 @@ export default function DailyJournalPage() {
     );
 
     return (
-        <>
+        <TooltipProvider>
             {
                 journal === null ? (
                     <div className="flex flex-col gap-2 opacity-20">
@@ -180,27 +195,37 @@ export default function DailyJournalPage() {
                     </div>
                 ) : (
                     <>
-                   <EditorContent editor={editor} className="PromiseMirror tiptap text-pageCream focus-visible:outline-none focus:outline-none active:outline-none border-none ring-0"/>
+                   <EditorContent editor={editor} className="PromiseMirror tiptap text-pageCream"/>
                     
                     <div className="text-pageCream mt-12 flex gap-10 justify-between">
                         <DailyTaskTable date={journal ? journal.date : new Date()}/>
 
                         <div className="flex flex-col w-[30%]">
-                            <h1 className="mb-5 text-xl"><em>Your week's focus</em></h1>
-                            <div className="w-full min-h-48 bg-zinc-700 bg-opacity-40 p-4">
-                                <ul className="list-disc pl-6">
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                </ul>
+                            <div className="mb-5 flex items-center gap-4">
+                                <h1 className="text-xl"><em>Your week's focus</em></h1>
+                                <Tooltip delayDuration={200}>
+                                    <TooltipTrigger>
+                                        <IoMdInformationCircleOutline className="mt-1 opacity-20 cursor-pointer hover:opacity-100"/>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="text-sm">Organize your day in accordance to your weekly goals.</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </div>
+                            <div className="w-full pb-6 bg-zinc-700 bg-opacity-40 p-4">
+                                <ol className="list-decimal pl-6">
+                                {
+                                    weeklyFocus?.map((focus, index) => (
+                                        <li key={index}>{focus}</li>
+                                    ))
+                                }
+                                </ol>
                             </div>
                         </div>
                     </div>
                     </>
                 )
             }
-        </>
+        </TooltipProvider>
     )
 }

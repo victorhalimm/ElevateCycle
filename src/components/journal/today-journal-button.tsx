@@ -20,7 +20,7 @@ export default function TodayJournalButton({mode} : props) {
 
     return (
             <div 
-            className="py-2 flex items-center gap-2 cursor-pointer" 
+            className="py-2 flex items-center gap-2 cursor-pointer select-none" 
             onMouseOver={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
             onClick={handleClick}
         >
