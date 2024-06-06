@@ -21,7 +21,13 @@ const TaskCheckboxInput = ({className="", checkboxClassName="", unmount, date} :
 
     const user = useUser();
 
-    const addTask = async () => {
+    const unmountComponent = async () => {
+        setAnimateDelete(true)
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        unmount()
+    }
+
+    const addTask = async (withUnmount : boolean) => {
         if(taskValue !== "") {
             if (user === null) return console.error("User not logged in");
 
@@ -33,14 +39,25 @@ const TaskCheckboxInput = ({className="", checkboxClassName="", unmount, date} :
                 date: Timestamp.fromDate(date),
             };
 
-            unmount()
+            if(withUnmount) {
+                unmount()
+            }
+            else {
+                setTaskValue("");
+            }
             await addDoc(collection(db, "tasks"), task);
             return;
         }
+        unmountComponent();
+    }
 
-        setAnimateDelete(true)
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        unmount()
+    const handleKey = async(key : string) => {
+        if(key === "Enter") {
+            await addTask(false);
+        }
+        else if(key === "Escape") {
+            unmountComponent()
+        }
     }
 
     const [taskValue, setTaskValue] = useState<string>("");
@@ -57,7 +74,7 @@ const TaskCheckboxInput = ({className="", checkboxClassName="", unmount, date} :
                 <input 
                     className="h-5 bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-zinc-600" 
                     placeholder="Type here..." autoFocus 
-                    onBlur={addTask} onKeyDown={(e) => e.key === "Enter" && addTask()}
+                    onBlur={() => addTask(true)} onKeyDown={(e) => handleKey(e.key)}
                     onChange={(e) => setTaskValue(e.target.value)}
                     value={taskValue}
                 />

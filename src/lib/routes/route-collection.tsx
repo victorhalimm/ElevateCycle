@@ -6,6 +6,7 @@ import { BsJournals } from "react-icons/bs";
 import TimerPage from "@/pages/timer-page/timer-page";
 import JournalPage from "@/pages/journal-page/journal-page";
 import ProfilePage from "@/pages/profile-page/profile-page";
+import { Navigate } from "react-router-dom";
 
 interface IRoute {
     name: string;
@@ -38,7 +39,7 @@ export const routeCollection : IRoute[] = [
     {
         name: "Journal",
         route: "/journal",
-        element: <JournalPage />,
+        element: <Navigate to="/journal/daily/today" replace={true} />,
         icon: <BsJournals />,
         showInSidebar: true
     },
