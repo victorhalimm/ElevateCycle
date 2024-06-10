@@ -1,3 +1,4 @@
+import DaysTasks from "@/components/task/days-tasks";
 import TaskCheckbox from "@/components/task/task-checkbox";
 import CircularTimer from "@/components/timer/circular-timer";
 import { Input } from "@/components/ui/input";
@@ -48,16 +49,13 @@ const HomeTaskSection = ({ tasks }: props) => {
   const strokeWidth = 5;
 
   return (
-    <div className="flex-col flex gap-3 h-full w-[60%]">
       <div className="flex h-[77%] w-full gap-3">
         <div className="bg-darkBlue gap-1 w-[50%] px-4 py-6 flex-col flex justify-between">
           <p className="font-chakra text-pageCream text-sm">
             TODAY'S TASK LIST
           </p>
-          <div className="flex flex-col gap-2 pt-3 h-full w-full overflow-hidden">
-            {tasks.map((task) => (
-              <TaskCheckbox task={task} />
-            ))}
+          <div className="flex flex-col gap-2 pt-3 h-full w-full overflow-hidden font-chakra">
+            <DaysTasks date={new Date()} tasks={tasks} />
           </div>
         </div>
 
@@ -77,28 +75,6 @@ const HomeTaskSection = ({ tasks }: props) => {
           </div>
         </div>
       </div>
-
-      <div className="bg-darkCream text-pageBlack gap-1 w-full h-[23%] px-4 py-6 flex-col flex justify-between">
-        <p className="font-chakra text-sm font-bold">ADD TASK</p>
-        <div className="w-full flex justify-between relative font-chakra">
-          <Input
-            className="bg-transparent rounded-sm border-pageBlack border-opacity-60 placeholder:text-pageBlack placeholder:text-opacity-80 focus-visible:ring-0 transition-all duration-300 font-medium text-pageBlack"
-            placeholder="Add New Tasks"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            onKeyDown={(e) => {
-              e.key === "Enter" && createTask();
-            }}
-          />
-          <div className="absolute right-3 h-full flex items-center">
-            <MdKeyboardArrowRight
-              className="text-lg cursor-pointer opacity-70"
-              onClick={createTask}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 

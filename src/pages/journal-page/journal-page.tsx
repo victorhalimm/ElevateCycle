@@ -7,7 +7,7 @@ import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
 import { DailyJournal } from "@/lib/types/journals/daily-journal";
 import { WeeklyJournal } from "@/lib/types/journals/weekly-journal";
-import { isSameDay } from "@/lib/utils/date-utils";
+import { isSameWeekAsToday, isToday } from "@/lib/utils/date-utils";
 import MainTemplate from "@/templates/main-template";
 import { collection, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -29,19 +29,20 @@ const JournalPage = () => {
     useEffect(() => {
         (async () => {
             if(user !== null) {
-                const dailyQuery = query(collection(db, 'dailyJournals'), where('uid', '==', user.uid))
+                const dailyQuery = query(collection(db, 'dailyJournals'), orderBy('date', 'desc'), where('uid', '==', user.uid))
                 const dailyRef = await getDocs(dailyQuery);
                 const dailyData : Array<DailyJournal> = [];
                 console.log(dailyRef)
                 // @ts-ignore
-                dailyRef.docs.map(doc => (!isSameDay(doc.data().date.toDate()) && dailyData.push({ id: doc.id, ...doc.data() })))
+                dailyRef.docs.map(doc => (!isToday(doc.data().date.toDate()) && dailyData.push({ id: doc.id, ...doc.data() })))
                 setDailyJournals(dailyData);
                 console.log(dailyData)
                 
                 const weeklyQuery = query(collection(db, 'weeklyJournals'), where('uid', '==', user.uid))
                 const weeklyRef = await getDocs(weeklyQuery);
-                const weeklyData = weeklyRef.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const weeklyData : Array<WeeklyJournal> = [];
                 // @ts-ignore
+                weeklyRef.docs.map(doc => !isSameWeekAsToday(doc.data().date.toDate() && weeklyData.push({ id: doc.id, ...doc.data() })))
                 setWeeklyJournals(weeklyData);
             }
         })()

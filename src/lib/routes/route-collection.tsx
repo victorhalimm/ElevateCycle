@@ -7,6 +7,8 @@ import TimerPage from "@/pages/timer-page/timer-page";
 import JournalPage from "@/pages/journal-page/journal-page";
 import ProfilePage from "@/pages/profile-page/profile-page";
 import { Navigate } from "react-router-dom";
+import { RiCalendarEventLine } from "react-icons/ri";
+import TaskPage from "@/pages/task-page/task-page";
 
 interface IRoute {
     name: string;
@@ -57,6 +59,13 @@ export const routeCollection : IRoute[] = [
         name: "Profile",
         route: "/profile",
         element: <ProfilePage />,
+    },
+    {
+        name: "Tasks",
+        route: "/tasks",
+        element: <TaskPage />,
+        showInSidebar: true,
+        icon: <RiCalendarEventLine />,
     }
 ]
 

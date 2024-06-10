@@ -1,16 +1,12 @@
 import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
-import { DailyJournal } from "@/lib/types/journals/daily-journal";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, Timestamp, updateDoc, where } from "firebase/firestore";
+import { EditorContent } from "@tiptap/react";
+import { addDoc, collection, doc, getDoc, getDocs, query, Timestamp, updateDoc, where } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom"
 import "@/lib/styles/tiptap-editor.css"
 import { useTiptapEditor } from "@/contexts/tiptap-editor-context";
-import { GoPlus } from "react-icons/go";
-import DailyTaskTable from "../../components/task/daily-task-table";
-import { endOfDay, startOfDay } from "@/lib/utils/date-utils";
+import { isSameWeekAsToday } from "@/lib/utils/date-utils";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import { WeeklyJournal } from "@/lib/types/journals/weekly-journal";
@@ -134,9 +130,9 @@ export default function WeeklyJournalPage() {
                 if (!docSnap.empty) {
                     let found = false;
 
-                    // If today's journal exists, use that journal
+                    // If this week's journal exists, use that journal
                     docSnap.docs.every(doc => {
-                        if(doc.data().date.toDate() >= startOfDay(new Date()) && doc.data().date.toDate() <= endOfDay(new Date())) {
+                        if(isSameWeekAsToday(doc.data().date.toDate())) {
                             // @ts-ignore
                             setJournal({ id: doc.id, ...doc.data(), date: doc.data().date.toDate() });
                             setWeekFocus(doc.data().weekly_objectives);
@@ -148,7 +144,7 @@ export default function WeeklyJournalPage() {
 
                     if(!found) createNewJournal();
                 } else {
-                    // If today's journal does not exist, create a new journal
+                    // If week's journal does not exist, create a new journal
                     createNewJournal();
                 }
             })()
@@ -231,7 +227,7 @@ export default function WeeklyJournalPage() {
                                                 <IoMdInformationCircleOutline className="mt-1 opacity-20 cursor-pointer hover:opacity-100"/>
                                             </TooltipTrigger>
                                             <TooltipContent>
-                                                <p className="text-sm">List down 5 micro goals and habits that will lead you to your macro goal.</p>
+                                                <p className="text-sm">List down 5 <b><em>actionable</em></b> micro goals that will lead you to your macro goal.</p>
                                             </TooltipContent>
                                         </Tooltip>
                                     </div>

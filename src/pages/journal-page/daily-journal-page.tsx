@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom"
 import "@/lib/styles/tiptap-editor.css"
 import { useTiptapEditor } from "@/contexts/tiptap-editor-context";
 import DailyTaskTable from "../../components/task/daily-task-table";
-import { endOfDay, startOfDay } from "@/lib/utils/date-utils";
+import { isSameWeek, isToday } from "@/lib/utils/date-utils";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -100,7 +100,7 @@ export default function DailyJournalPage() {
 
                     // If today's journal exists, use that journal
                     docSnap.docs.every(doc => {
-                        if(doc.data().date.toDate() >= startOfDay(new Date()) && doc.data().date.toDate() <= endOfDay(new Date())) {
+                        if(isToday(doc.data().date.toDate())) {
                             // @ts-ignore
                             setJournal({ id: doc.id, ...doc.data(), date: doc.data().date.toDate() });
                             found = true;
@@ -146,8 +146,10 @@ export default function DailyJournalPage() {
             );
             const docSnap = await getDocs(q);
             if (!docSnap.empty) {
-                docSnap.forEach(doc => {                   
-                    setWeeklyFocus(doc.data().weekly_objectives);
+                docSnap.forEach(doc => {
+                    if (isSameWeek(doc.data().date.toDate(), journal.date)) {
+                        setWeeklyFocus(doc.data().weekly_objectives);
+                    }           
                 })
             }
         })();
