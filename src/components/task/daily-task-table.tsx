@@ -22,11 +22,12 @@ const DailyTaskTable = ({date} : {date : Date}) => {
                 where('uid', "==", user.uid),
             );
             unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
-                let tasksResult : Task[] = [];
+                 
+                const tasksResult : Task[] = [];
                 querySnapshot.forEach((doc) => {
-                    let docDate = doc.data().date.toDate()
+                    const docDate = doc.data().date.toDate()
                     if(isSameDay(docDate, date))
-                        //@ts-ignore
+                        //@ts-expect-error bisa
                         tasksResult.push({ id: doc.id, ...doc.data() });
                 });
                 // tasksResult.sort((a,b) => (a.completed > b.completed) ? 1 : ((b.completed > a.completed) ? -1 : 0))

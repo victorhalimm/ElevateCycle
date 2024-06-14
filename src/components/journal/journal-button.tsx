@@ -31,7 +31,8 @@ const JournalButton = ({journal} : {journal : Journal}) => {
             onClick={handleClick}
         >
             <GrDocumentText className={`opacity-30 transition-all duration-200 ${hovered ? "opacity-80" : ""} ${active ? "opacity-80 text-lighterBlue" : "opacity-30"}`}/>
-            {/* @ts-ignore */}
+
+            {/* @ts-expect-error  it exists*/}
             <p className={`${hovered ? "opacity-100" : active ? "opacity-100 text-lighterBlue" : "opacity-60"}`}>{formatDate(journal?.date?.toDate())}</p>
         </div>
     )
