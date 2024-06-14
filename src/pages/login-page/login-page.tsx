@@ -2,9 +2,7 @@
 import Clock from '@/components/clock';
 import { useNavigator } from '@/contexts/navigator-context';
 import { useUser } from '@/contexts/user-context';
-import { auth } from '@/firebase/firebaseConfig';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import LoginSubpage from './login-subpage';
 import RegisterSubpage from './register-subpage';
 
@@ -13,7 +11,6 @@ const LoginPage = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [opacity, setOpacity] = useState(100);
-    const location = useLocation();
     const user = useUser();
     const navigate = useNavigator();
 

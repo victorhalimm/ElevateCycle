@@ -1,5 +1,4 @@
-import { instanceOfDailyJournal, instanceOfWeeklyJournal } from "@/lib/utils/journal-utils";
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { GrDocumentText } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 

@@ -2,7 +2,7 @@ import { Quote } from "@/lib/types/quote";
 import { fetchQuote } from "@/services/quote-service";
 import { useEffect, useState } from "react";
 import MainTemplate from "@/templates/main-template";
-import { collection, onSnapshot, orderBy, query, Timestamp, where } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useUser } from "@/contexts/user-context";
 import { Task } from "@/lib/types/task";

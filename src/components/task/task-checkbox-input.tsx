@@ -1,8 +1,7 @@
 import { Task } from "@/lib/types/task";
 import { useEffect, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
-import { RxCross2 } from "react-icons/rx";
-import { addDoc, collection, deleteDoc, doc, Timestamp, updateDoc } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useUser } from "@/contexts/user-context";
 

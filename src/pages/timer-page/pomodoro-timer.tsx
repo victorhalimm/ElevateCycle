@@ -7,7 +7,6 @@ import { MdOutlineReplay } from "react-icons/md";
 import TimerSettings from "./timer-settings";
 import { useTimerContext } from "@/contexts/timer-context";
 import CircularTimer from "@/components/timer/circular-timer";
-import TimerSonner from "./timer-sonner";
 
 //Should be Pomodoro Settings
 export interface DurationProps {

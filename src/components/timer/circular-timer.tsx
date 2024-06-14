@@ -6,7 +6,7 @@ interface CircularTimerProps {
   totalTime: number;
   countdown: number;
   isCountdownActive: boolean;
-  mode: string;
+  mode?: string;
 }
 
 const CircularTimer: React.FC<CircularTimerProps> = ({ size, strokeWidth, timeLeft, totalTime, countdown, isCountdownActive, mode = "POMODORO"}) => {

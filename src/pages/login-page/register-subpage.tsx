@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { AiOutlineUser } from "react-icons/ai";
 import LoadingButton from "@/components/loading-button";
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigator } from "@/contexts/navigator-context";
 
 type params = {
     changeSubpage : (index: number) => void

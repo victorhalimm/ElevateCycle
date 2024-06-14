@@ -1,8 +1,8 @@
 import LoadingButton from "@/components/loading-button";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/firebase/firebaseConfig";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLock2Line } from "react-icons/ri";
@@ -18,7 +18,7 @@ const LoginSubpage = ({changeSubpage} : params) => {
         password: ""
     });
     
-    const [error, setError] = useState('');
+    const [_, setError] = useState('');
     const [loading, setLoading] = useState(false);
     // const navigate = useNavigator();
 
@@ -30,7 +30,7 @@ const LoginSubpage = ({changeSubpage} : params) => {
             return;
         }
         try {
-            let creds = await signInWithEmailAndPassword(auth, userData.email, userData.password);
+            await signInWithEmailAndPassword(auth, userData.email, userData.password);
         }
         catch(e) {
             setError('Invalid email or password');

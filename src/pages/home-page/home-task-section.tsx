@@ -1,15 +1,11 @@
 import DaysTasks from "@/components/task/days-tasks";
-import TaskCheckbox from "@/components/task/task-checkbox";
 import CircularTimer from "@/components/timer/circular-timer";
-import { Input } from "@/components/ui/input";
 import { useTimerContext } from "@/contexts/timer-context";
 import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
 import { Task } from "@/lib/types/task";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { useState } from "react";
 
 type props = {
   tasks: Task[];
@@ -21,6 +17,7 @@ const HomeTaskSection = ({ tasks }: props) => {
   const [newTask, setNewTask] = useState("");
   const user = useUser();
 
+  // @ts-ignore
   const createTask = async () => {
     if (user === null) return console.error("User not logged in");
 
@@ -42,6 +39,7 @@ const HomeTaskSection = ({ tasks }: props) => {
       timeLeft,
       countdown,
       isCountdownActive,
+      modeName,
     },
   } = useTimerContext();
 
@@ -70,6 +68,7 @@ const HomeTaskSection = ({ tasks }: props) => {
                 totalTime={mode}
                 countdown={countdown}
                 isCountdownActive={isCountdownActive}
+                mode={modeName}
                 />
             </div>
           </div>

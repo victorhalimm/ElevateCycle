@@ -2,6 +2,7 @@ import IChildren from "@/lib/types/children";
 import { createContext, useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// @ts-ignore
 export const NavigatorContext = createContext(async (route : string) => {});
 
 export default function NavigatorContextProvider({children} : IChildren) {

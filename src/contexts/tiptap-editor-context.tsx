@@ -1,5 +1,4 @@
 import ToggleButton from "@/components/toggle-button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import IChildren from "@/lib/types/children";
 import Underline from "@tiptap/extension-underline";
 import { Editor, useEditor } from "@tiptap/react";

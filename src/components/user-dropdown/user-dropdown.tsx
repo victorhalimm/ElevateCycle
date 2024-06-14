@@ -9,9 +9,8 @@ import {
 import { useNavigator } from "@/contexts/navigator-context";
 import { useUser } from "@/contexts/user-context";
 import { auth } from "@/firebase/firebaseConfig";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { signOut } from "firebase/auth";
-import { AiOutlineUser } from "react-icons/ai";
 
 const UserDropdown = () => {
 

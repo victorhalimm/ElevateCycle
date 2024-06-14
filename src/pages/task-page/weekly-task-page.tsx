@@ -1,5 +1,4 @@
 import DaysTasks from "@/components/task/days-tasks";
-import HoursTasks from "@/components/task/hours-tasks";
 import { Task } from "@/lib/types/task";
 import { startOfWeek } from "@/lib/utils/date-utils";
 

@@ -80,14 +80,14 @@ export function startOfWeek(date: Date): Date {
     return startOfWeek;
 }
 
-function endOfWeek(date: Date): Date {
+export function endOfWeek(date: Date): Date {
     const endOfWeek = startOfWeek(date);
     endOfWeek.setDate(endOfWeek.getDate() + 6);
     endOfWeek.setHours(23, 59, 59, 999);
     return endOfWeek;
 }
   
-  function getWeekNumber(date : Date) {
+export function getWeekNumber(date : Date) {
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     // @ts-ignore
     const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
