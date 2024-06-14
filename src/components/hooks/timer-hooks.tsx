@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useToast } from "@/components/ui/use-toast"
 import CountdownSound from '@/assets/sound-effects/countdown-sound.mp3';
 
 const useTimer = (initialTime = 25 * 60, enableCountdown = false) => {
@@ -17,8 +16,6 @@ const useTimer = (initialTime = 25 * 60, enableCountdown = false) => {
     const modeName = localStorage.getItem("modeName");
     return modeName ? modeName : "Pomodoro";
   });
-
-  const { toaster } = useToast();
 
   useEffect(() => {
     localStorage.setItem("timeLeft", timeLeft.toString());
