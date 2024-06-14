@@ -1,10 +1,7 @@
 import { Quote } from "@/lib/types/quote";
 import { fetchQuote } from "@/services/quote-service";
-import { Checkbox } from "@/components/ui/checkbox"; 
 import { useEffect, useState } from "react";
 import MainTemplate from "@/templates/main-template";
-import { Input } from "@/components/ui/input";
-import { FaArrowRight } from "react-icons/fa";
 import { collection, onSnapshot, orderBy, query, Timestamp, where } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { useUser } from "@/contexts/user-context";

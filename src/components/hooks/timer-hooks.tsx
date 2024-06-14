@@ -1,23 +1,30 @@
 import { useState, useEffect } from 'react';
+import { useToast } from "@/components/ui/use-toast"
 import CountdownSound from '@/assets/sound-effects/countdown-sound.mp3';
 
 const useTimer = (initialTime = 25 * 60, enableCountdown = false) => {
   const [timeLeft, setTimeLeft] = useState(() => {
-    // Retrieve the last saved time left from local storage if it exists
     const savedTimeLeft = localStorage.getItem("timeLeft");
     return savedTimeLeft ? parseInt(savedTimeLeft, 10) : initialTime;
   });
 
   const [isActive, setIsActive] = useState(() => {
-    // Restore the timer active state from local storage
     const isActive = localStorage.getItem("isActive");
     return isActive === "true";
   });
 
+  const [modeName, setModeName] = useState(() => {
+    const modeName = localStorage.getItem("modeName");
+    return modeName ? modeName : "Pomodoro";
+  });
+
+  const { toaster } = useToast();
+
   useEffect(() => {
     localStorage.setItem("timeLeft", timeLeft.toString());
     localStorage.setItem("isActive", isActive.toString());
-  }, [timeLeft, isActive]);
+    localStorage.setItem("modeName", modeName);
+  }, [timeLeft, isActive, modeName]);
 
   const [countdown, setCountdown] = useState(3); 
   const [isCountdownActive, setIsCountdownActive] = useState(false);
@@ -92,7 +99,7 @@ const useTimer = (initialTime = 25 * 60, enableCountdown = false) => {
     audio.currentTime = 0;
   };
 
-  return { timeLeft, startTimer, pauseTimer, resetTimer, isActive, countdown, isCountdownActive, setIsCountdownActive };
+  return { timeLeft, startTimer, pauseTimer, resetTimer, isActive, countdown, isCountdownActive, setIsCountdownActive, modeName, setModeName };
 };
 
 export default useTimer;

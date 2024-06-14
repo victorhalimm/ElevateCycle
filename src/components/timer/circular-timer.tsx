@@ -1,6 +1,4 @@
 
-
-
 interface CircularTimerProps {
   size: number;
   strokeWidth: number;
@@ -8,9 +6,10 @@ interface CircularTimerProps {
   totalTime: number;
   countdown: number;
   isCountdownActive: boolean;
+  mode: string;
 }
 
-const CircularTimer: React.FC<CircularTimerProps> = ({ size, strokeWidth, timeLeft, totalTime, countdown, isCountdownActive }) => {
+const CircularTimer: React.FC<CircularTimerProps> = ({ size, strokeWidth, timeLeft, totalTime, countdown, isCountdownActive, mode = "POMODORO"}) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = -1 * (circumference - (timeLeft / totalTime) * circumference);
@@ -44,13 +43,25 @@ const CircularTimer: React.FC<CircularTimerProps> = ({ size, strokeWidth, timeLe
       />
       <text
         x="50%"
-        y="55%"
+        y="54%"
         textAnchor="middle"
-        fontSize={size / 7} 
+        fontSize={size / 5} 
         fontWeight={600}
         fill="#F1F0E1"
+        fontFamily="Chakra Petch"
       >
         {isCountdownActive ? countdown : timerFormat(timeLeft)}
+      </text>
+      <text
+        x="50%"
+        y="70%"
+        textAnchor="middle"
+        fontSize={size / 14} 
+        fontWeight={500}
+        fill="#F1F0E1"
+        fontFamily="Chakra Petch"
+      >
+        {mode}
       </text>
     </svg>
   );

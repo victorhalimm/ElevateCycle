@@ -7,6 +7,7 @@ import { MdOutlineReplay } from "react-icons/md";
 import TimerSettings from "./timer-settings";
 import { useTimerContext } from "@/contexts/timer-context";
 import CircularTimer from "@/components/timer/circular-timer";
+import TimerSonner from "./timer-sonner";
 
 //Should be Pomodoro Settings
 export interface DurationProps {
@@ -30,6 +31,8 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
       isActive,
       countdown,
       isCountdownActive,
+      modeName,
+      setModeName
     },
     countdownActive,
     setCountdownActive,
@@ -37,25 +40,27 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
 
   const [modeChanged, setModeChanged] = useState(false);
 
-  const size = 350;
-  const strokeWidth = 7;
-
+  const size = 400;
+  const strokeWidth = 6;
 
   const handlePomodoroMode = () => {
     console.log("pomodoro clicked");
     setMode(duration.Pomodoro);
+    setModeName("POMODORO");
     setModeChanged(true);
   };
 
   const handleShortMode = () => {
     console.log("short clicked");
     setMode(duration.Short);
+    setModeName("SHORT BREAK");
     setModeChanged(true);
   };
 
   const handleLongMode = () => {
     console.log("long clicked");
     setMode(duration.Long);
+    setModeName("LONG BREAK");
     setModeChanged(true);
   };
 
@@ -63,6 +68,8 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
     if (modeChanged) {
       resetTimer();
       setModeChanged(false);
+
+    
     }
   }, [mode]);
 
@@ -83,7 +90,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
   // }, [isCountdownActive])
 
   return (
-    <div className={`relative flex flex-col gap-6 items-center ${className}`}>
+    <div className={`relative flex flex-col gap-6 items-center font-chakra ${className}`}>
       <div className="flex gap-4 items-center">
         <div className="flex w-full gap-4 items-center">
           <Button
@@ -124,6 +131,7 @@ const PomodoroTimer = ({ className }: { className?: string }) => {
         totalTime={mode}
         countdown={countdown}
         isCountdownActive={isCountdownActive}
+        mode={modeName}
       />
 
       <div className=" mt-4 flex items-center">
