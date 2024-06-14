@@ -121,7 +121,7 @@ const Calendar = ({selectedDate, setSelectedDate, weeklyMode = false} : Calendar
                 <MdArrowForwardIos onClick={() => monthNext(true)} className="text-pageCream cursor-pointer" />
             </div>
 
-            <table className="table">
+            <table className="text-sm">
                 <thead>
                     <tr>
                         <CalendarCellDecor content="Sun" className="font-bold"/>

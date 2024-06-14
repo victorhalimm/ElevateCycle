@@ -114,20 +114,20 @@ export const HomePage = () => {
                     <div className="bg-darkCream text-pageBlack gap-1 w-full h-[23%] px-4 py-6 flex justify-between relative">
                         <p className="font-chakra text-sm font-bold">PERFORMANCE</p>
                         <div className="absolute justify-self-end right-0">
-                            <div className="flex -rotate-90 -translate-y-[39%]">
+                            <div className="flex -rotate-90 -translate-y-[40%]">
                                 <div className="grid grid-cols-[repeat(6,minmax(0,1fr))] gap-1 w-fit -translate-y-[45%]">
                                     {
                                         Array.from({length: 182}).map((_, index) => (
                                             <>
                                             {
                                                 index % 7 === 0 && index % 4 === 0 || halfDays.includes(index) ? (
-                                                    <div className="h-3 w-3 bg-lightBlue bg-opacity-55">
+                                                    <div className="h-2.5 w-2.5 bg-lightBlue bg-opacity-55">
                                                         <div className="w-full h-full bg-stone-500 bg-opacity-20"></div>
                                                     </div>
                                                 ) : index % 5 === 0 && index % 3 === 0 || fullDays.includes(index) ? (
-                                                    <div className="h-3 w-3 bg-lightBlue"></div>
+                                                    <div className="h-2.5 w-2.5 bg-lightBlue"></div>
                                                 ) : (
-                                                    <div className="h-3 w-3 bg-stone-500 bg-opacity-50"></div>
+                                                    <div className="h-2.5 w-2.5 bg-stone-500 bg-opacity-50"></div>
                                                 )
                                             }
                                             </>

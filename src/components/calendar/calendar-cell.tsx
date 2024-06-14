@@ -31,16 +31,16 @@ const CalendarCell = ({date, month, year, onClick, isActive, tasks, className} :
     return (
         <td 
             key={date} onClick={() => onClick(new Date(year, month, date))}
-            className={`w-12 h-12 text-pageCream  text-center align-middle font-chakra select-none cursor-pointer relative rounded-md ${className}
+            className={`w-9 h-9 text-pageCream  text-center align-middle font-chakra select-none cursor-pointer relative rounded-md ${className}
                 ${isActive ? 'bg-neutral-700 bg-opacity-80' : ''}`} 
         >
             {date}
             <div className="absolute h-full w-full top-0 left-0 pointer-events-none flex justify-center items-center">
                 {
                     status === 1 ? (
-                        <div className="absolute bg-lightBlue w-1.5 h-1.5 rounded-full mt-8"></div>
+                        <div className="absolute bg-lightBlue w-1.5 h-1.5 rounded-full mt-7"></div>
                     ) : status === 2 ? (
-                        <div className="absolute bg-red-400 w-1.5 h-1.5 rounded-full mt-8"></div>
+                        <div className="absolute bg-red-400 w-1.5 h-1.5 rounded-full mt-7"></div>
                     ) : <></>
                 }
             </div>

@@ -1,12 +1,9 @@
 import Calendar from "@/components/calendar/calendar";
-import HoursTasks from "@/components/task/hours-tasks";
-import TaskCheckbox from "@/components/task/task-checkbox";
-import TaskCheckboxInput from "@/components/task/task-checkbox-input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
 import { Task } from "@/lib/types/task";
-import { isSameDay, isToday } from "@/lib/utils/date-utils";
+import { isSameDay } from "@/lib/utils/date-utils";
 import MainTemplate from "@/templates/main-template";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -55,11 +52,11 @@ const TaskPage = () => {
                     <div className="bg-darkBlue gap-1 w-full px-4 py-6 flex-col flex justify-between">
                         <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} weeklyMode={weeklyMode}/>
                     </div>
-                    <div className="bg-lightBlue w-full h-[25%] px-4 py-6 flex-col flex justify-between">
+                    <div className="bg-lightBlue w-full h-[20%] px-4 py-6 flex-col flex justify-between">
                         <p className="font-chakra text-pageCream text-sm">TODAY'S REMAINING TASKS</p>
                         <p className="font-chakra text-pageCream text-4xl font-medium">3</p>
                     </div>
-                    <div className="bg-darkBlue gap-1 w-full h-[25%] px-4 py-6 flex-col flex">
+                    <div className="bg-darkBlue gap-1 w-full h-[20%] px-4 py-6 flex-col flex">
                         <p className="font-chakra text-pageCream text-sm">TASKS PAST DUE</p>
                         <div className="flex flex-col gap-2 pt-3">
                             <p className="font-chakra text-pageCream text-4xl font-medium">20</p>
@@ -81,8 +78,8 @@ const TaskPage = () => {
                             WEEKLY
                         </p>
                     </div>
-                    <div className="bg-darkBlue w-full h-[90%] px-4 py-6">
-                        <ScrollArea className="h-[65vh]">
+                    <div className="bg-darkBlue w-full h-full px-4 py-6">
+                        <ScrollArea className="h-[60vh]">
                             <div className="flex flex-col gap-4 font-chakra">
                                 {
                                     weeklyMode ? (

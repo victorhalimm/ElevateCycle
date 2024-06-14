@@ -10,7 +10,7 @@ export default function MainTemplate({children} : IChildren /* ILoveChildren */)
   return (
     <div className="flex w-screen h-screen">
       <Sidebar className={sidebarOpen ? "w-[20vw]" : "w-0"} openSidebar={() => setSidebarOpen(!sidebarOpen)}/>
-      <div className="bg-[#101015] flex flex-col h-screen w-screen">
+      <div className="bg-[#101015] flex flex-col h-screen w-screen overflow-x-hidden">
         <Navbar openSidebar={() => setSidebarOpen(!sidebarOpen)}/>
         {children}
       </div>
