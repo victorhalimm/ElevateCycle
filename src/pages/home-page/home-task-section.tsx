@@ -5,7 +5,11 @@ import { useUser } from "@/contexts/user-context";
 import { db } from "@/firebase/firebaseConfig";
 import { Task } from "@/lib/types/task";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { CiPlay1 } from "react-icons/ci";
+import { CiPause1 } from "react-icons/ci";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { MdOutlineReplay } from "react-icons/md";
 
 type props = {
   tasks: Task[];
@@ -40,6 +44,9 @@ const HomeTaskSection = ({ tasks }: props) => {
       countdown,
       isCountdownActive,
       modeName,
+      startTimer,
+      pauseTimer,
+      isActive
     },
   } = useTimerContext();
 
@@ -58,8 +65,16 @@ const HomeTaskSection = ({ tasks }: props) => {
         </div>
 
         <div className="h-full w-[50%] flex gap-3 flex-col">
-          <div className="bg-darkBlue w-full h-full px-4 py-6">
+          <div className="bg-darkBlue w-full h-full px-4 py-6 flex flex-col gap-2">
             <p className="font-chakra text-pageCream text-sm">ONGOING TIMER</p>
+            <div className="font-chakra flex text-2xl items-center gap-1">
+              <Button onClick={startTimer} disabled={isActive} className="bg-transparent hover:bg-transparent text-pageCream text-2xl pl-0">
+                <CiPlay1 />
+              </Button>
+              <Button onClick={pauseTimer} disabled={!isActive} className="bg-transparent hover:bg-transparent text-pageCream text-2xl pl-0">
+                <CiPause1 />
+              </Button>
+            </div>
             <div className="flex h-full items-center">
                 <CircularTimer
                 size={size}
