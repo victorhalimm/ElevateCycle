@@ -9,7 +9,6 @@ import { CiPlay1 } from "react-icons/ci";
 import { CiPause1 } from "react-icons/ci";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MdOutlineReplay } from "react-icons/md";
 
 type props = {
   tasks: Task[];
