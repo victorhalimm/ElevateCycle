@@ -80,7 +80,7 @@ export const HomePage = () => {
                     </div>
                     <div className="bg-darkBlue gap-1 w-full h-[23%] px-4 py-6 flex-col flex justify-between">
                         <p className="font-chakra text-pageCream text-sm">TODAY'S COMPLETED TASK</p>
-                        <p className="font-chakra text-pageCream text-4xl font-medium">69 / 69</p>
+                        <p className="font-chakra text-pageCream text-4xl font-medium">3 / 5</p>
                     </div>
                     <div className="bg-darkBlue gap-1 w-full h-[54%] px-4 py-6 flex-col flex">
                         <p className="font-chakra text-pageCream text-sm">TODAY'S REMAINING TASK</p>
@@ -92,7 +92,7 @@ export const HomePage = () => {
                 <div className="flex-col flex gap-3 h-full w-[20%]">
                     <div className="bg-darkBlue gap-1 w-full h-[calc(46%+1rem)] px-4 py-6 flex-col flex justify-between">
                         <p className="font-chakra text-pageCream text-sm">TODAY'S COMPLETED TASK</p>
-                        <p className="font-chakra text-pageCream text-4xl font-medium">69 / 69</p>
+                        <p className="font-chakra text-pageCream text-4xl font-medium">3 / 5</p>
                     </div>
                     <div className="bg-lightBlue gap-1 w-full h-[54%] px-4 py-6 flex-col flex justify-end relative">
                         <img src={homeDecor} className="absolute top-0 right-0 w-36"/>
